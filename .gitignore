@@ -1,0 +1,11 @@
+*.csv
+*.pid
+*.pyc
+*.rdb
+*.swp
+.env
+build
+log
+piconfig.py
+setting.py
+venv
