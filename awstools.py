@@ -55,7 +55,17 @@ class AwsTools(object):
                                         root_device_name=root_device_name,
                                         block_device_map=block_device_map)
 
+    def run_from_image(self, image_id):
+        ''' Create instance from image '''
+        image = self.conn.get_image(image_id)
+        image.run(instance_type='t1.micro', security_group_ids=['sg-16d2d974',],
+                  subnet_id='subnet-4e8fda08',
+                  instance_initiated_shutdown_behavior='terminate')
+        return image
+
 if __name__ == '__main__':
     print 'remove comment before use'
     #AwsTools().create_snapshot()
     #print AwsTools().register_image('snap-b2464c5d', '/dev/sda1', True)
+    #print AwsTools().run_from_image('ami-73fa9972')
+    #print AwsTools().conn.create_tags('i-ebcd6aee', {'Name': 'From boto'})
