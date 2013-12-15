@@ -3,6 +3,7 @@
 from boto import ec2
 from boto.ec2.blockdevicemapping import BlockDeviceMapping
 from boto.ec2.blockdevicemapping import BlockDeviceType
+from datetime import datetime
 import setting
 
 
@@ -28,10 +29,12 @@ class AwsTools(object):
             print 'volume', volumes
 
             for volume in volumes:
-                snap = volume.create_snapshot('From boto.', dry_run)
+                now = datetime.now()
+                snap = volume.create_snapshot('AUTO SNAPSHOT %s' % now, dry_run)
                 print 'create_snapshot', snap
                 print 'Add tag', self.conn.create_tags(snap.id,
-                        {'Name': 'AUTO-SNAP','CreatedBy': 'boto'}, dry_run)
+                        {'Name': 'AUTO-SNAP-%s%s' % (now.month, now.day),
+                         'CreatedBy': 'boto'}, dry_run)
 
     def register_image(self, snapshot_id, root_device_name,
             delete_on_termination=False):
@@ -43,8 +46,10 @@ class AwsTools(object):
         block_device_map = BlockDeviceMapping()
         block_device_map[root_device_name] = root_vol
 
-        return self.conn.register_image(name='TESTAMI',
-                                        description='TEST useing boto.',
+        now = datetime.now()
+        return self.conn.register_image(name='AMI-%s%s' % (now.month, now.day),
+                                        description='AMI-%s%s' % (now.month,
+                                                                  now.day),
                                         architecture='x86_64',
                                         kernel_id='aki-176bf516',
                                         root_device_name=root_device_name,
@@ -53,4 +58,4 @@ class AwsTools(object):
 if __name__ == '__main__':
     print 'remove comment before use'
     #AwsTools().create_snapshot()
-    #print AwsTools().register_image('snap-c7e9e228', '/dev/sda1', True)
+    #print AwsTools().register_image('snap-b2464c5d', '/dev/sda1', True)
