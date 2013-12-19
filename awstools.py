@@ -63,9 +63,19 @@ class AwsTools(object):
                   instance_initiated_shutdown_behavior='terminate')
         return image
 
+    def get_spot_price_history(self):
+        ''' Get spot instances history '''
+        return self.conn.get_spot_price_history(
+                        instance_type='t1.micro',
+                        product_description='Linux/UNIX (Amazon VPC)',
+                        availability_zone='ap-northeast-1c',
+                        max_results='20')
+
 if __name__ == '__main__':
     print 'remove comment before use'
     #AwsTools().create_snapshot()
     #print AwsTools().register_image('snap-b2464c5d', '/dev/sda1', True)
     #print AwsTools().run_from_image('ami-73fa9972')
     #print AwsTools().conn.create_tags('i-ebcd6aee', {'Name': 'From boto'})
+    for i in AwsTools().get_spot_price_history():
+        print i.region, i.availability_zone, i.timestamp, i.price
