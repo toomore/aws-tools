@@ -30,10 +30,12 @@ class AwsTools(object):
 
             for volume in volumes:
                 now = datetime.now()
-                snap = volume.create_snapshot('AUTO SNAPSHOT %s' % now, dry_run)
+                snap = volume.create_snapshot('%s %s' % (i.instances[0].id, now),
+                                              dry_run)
                 print 'create_snapshot', snap
                 print 'Add tag', self.conn.create_tags(snap.id,
-                        {'Name': 'AUTO-SNAP-%s%s' % (now.month, now.day),
+                        {'Name': 'AUTO-%s%s-%s' % (now.month, now.day,
+                                                   i.instances[0].id),
                          'CreatedBy': 'boto'}, dry_run)
 
     def register_image(self, snapshot_id, root_device_name,
