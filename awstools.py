@@ -56,10 +56,10 @@ class AwsTools(object):
                                         block_device_map=block_device_map)
 
     def run_from_image(self, image_id):
-        ''' Create instance from image '''
+        ''' Create instance from image in VPC '''
         image = self.conn.get_image(image_id)
         image.run(instance_type='t1.micro', security_group_ids=['sg-16d2d974',],
-                  subnet_id='subnet-4e8fda08',
+                  subnet_id='subnet-4e8fda08', #VPC
                   instance_initiated_shutdown_behavior='terminate')
         return image
 
