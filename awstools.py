@@ -63,6 +63,17 @@ class AwsTools(object):
                   instance_initiated_shutdown_behavior='terminate')
         return image
 
+    def run_spot_instances_from_image(self, image_id, price):
+        ''' Create spot instances from image '''
+        return self.conn.request_spot_instances(price=str(price),
+                                         image_id=image_id,
+                                         count=1,
+                                         #security_groups=['default',],
+                                         instance_type='t1.micro',
+                                         kernel_id='aki-176bf516',
+                                         subnet_id='subnet-4e8fda08',
+                                         security_group_ids=['sg-16d2d974',])
+
     def get_spot_price_history(self):
         ''' Get spot instances history '''
         return self.conn.get_spot_price_history(
@@ -77,5 +88,6 @@ if __name__ == '__main__':
     #print AwsTools().register_image('snap-b2464c5d', '/dev/sda1', True)
     #print AwsTools().run_from_image('ami-73fa9972')
     #print AwsTools().conn.create_tags('i-ebcd6aee', {'Name': 'From boto'})
-    for i in AwsTools().get_spot_price_history():
-        print i.region, i.availability_zone, i.timestamp, i.price
+    #for i in AwsTools().get_spot_price_history():
+    #    print i.region, i.availability_zone, i.timestamp, i.price
+    #print AwsTools().run_spot_instances_from_image('ami-73fa9972', '0.008')
