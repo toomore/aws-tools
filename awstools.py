@@ -91,3 +91,5 @@ if __name__ == '__main__':
     #for i in AwsTools().get_spot_price_history():
     #    print i.region, i.availability_zone, i.timestamp, i.price
     #print AwsTools().run_spot_instances_from_image('ami-73fa9972', '0.008')
+    #print AwsTools().conn.terminate_instances('i-ae776dac')
+    #print AwsTools().conn.cancel_spot_instance_requests('sir-6c9b0c5b')
