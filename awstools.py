@@ -3,6 +3,8 @@
 from boto import ec2
 from boto.ec2.blockdevicemapping import BlockDeviceMapping
 from boto.ec2.blockdevicemapping import BlockDeviceType
+from boto.ec2.networkinterface import NetworkInterfaceCollection
+from boto.ec2.networkinterface import NetworkInterfaceSpecification
 from datetime import datetime
 import setting
 
@@ -67,14 +69,21 @@ class AwsTools(object):
 
     def run_spot_instances_from_image(self, image_id, price):
         ''' Create spot instances from image '''
+        network_interfaces = NetworkInterfaceSpecification(
+                                subnet_id='subnet-4e8fda08',
+                                private_ip_address='10.0.11.123',
+                                groups=['sg-16d2d974',],
+                                associate_public_ip_address=True,
+                                description='spot instances from boto')
+
+        network_interfaces = NetworkInterfaceCollection(network_interfaces)
+
         return self.conn.request_spot_instances(price=str(price),
                                          image_id=image_id,
                                          count=1,
-                                         #security_groups=['default',],
                                          instance_type='t1.micro',
                                          kernel_id='aki-176bf516',
-                                         subnet_id='subnet-4e8fda08',
-                                         security_group_ids=['sg-16d2d974',])
+                                         network_interfaces=network_interfaces)
 
     def get_spot_price_history(self):
         ''' Get spot instances history '''
@@ -92,6 +101,6 @@ if __name__ == '__main__':
     #print AwsTools().conn.create_tags('i-ebcd6aee', {'Name': 'From boto'})
     #for i in AwsTools().get_spot_price_history():
     #    print i.region, i.availability_zone, i.timestamp, i.price
-    #print AwsTools().run_spot_instances_from_image('ami-73fa9972', '0.008')
+    #print AwsTools().run_spot_instances_from_image('ami-73fa9972', '0.007')
     #print AwsTools().conn.terminate_instances('i-ae776dac')
     #print AwsTools().conn.cancel_spot_instance_requests('sir-6c9b0c5b')
