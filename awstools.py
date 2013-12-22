@@ -32,7 +32,8 @@ class AwsTools(object):
 
             for volume in volumes:
                 now = datetime.now()
-                snap = volume.create_snapshot('%s %s' % (i.instances[0].id, now),
+                snap = volume.create_snapshot('%s %s' % (i.instances[0].id,
+                                                         now),
                                               dry_run)
                 print 'create_snapshot', snap
                 print 'Add tag', self.conn.create_tags(snap.id,

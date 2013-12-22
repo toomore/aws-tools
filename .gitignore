@@ -1,6 +1,7 @@
 *.csv
 *.pid
 *.pyc
+*.pylint
 *.rdb
 *.swp
 .env
