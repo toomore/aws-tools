@@ -106,6 +106,7 @@ class AwsToolsSES(object):
 
     @staticmethod
     def mail_header(name, mail):
+        ''' Encode header to base64 '''
         return '"%s" <%s>' % (Header(name, 'utf-8'), mail)
 
     def send_email(self):
