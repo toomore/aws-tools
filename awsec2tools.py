@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 ''' My AWS Tools '''
 from boto import ec2
-from boto import ses
 from boto.ec2.blockdevicemapping import BlockDeviceMapping
 from boto.ec2.blockdevicemapping import BlockDeviceType
 from boto.ec2.networkinterface import NetworkInterfaceCollection
 from boto.ec2.networkinterface import NetworkInterfaceSpecification
 from datetime import datetime
-from email.header import Header
 import setting
 
 
-class AwsTools(object):
+class AwsEC2Tools(object):
     ''' AWS tools '''
 
     def __init__(self):
@@ -96,37 +94,14 @@ class AwsTools(object):
                         availability_zone='ap-northeast-1c',
                         max_results='20')
 
-class AwsToolsSES(object):
-    ''' AWS SES tools '''
-    def __init__(self):
-        ''' Make a connect '''
-        self.conn = ses.connection.SESConnection(
-                                     aws_access_key_id=setting.ID,
-                                     aws_secret_access_key=setting.KEY)
-
-    @staticmethod
-    def mail_header(name, mail):
-        ''' Encode header to base64 '''
-        return '"%s" <%s>' % (Header(name, 'utf-8'), mail)
-
-    def send_email(self):
-        ''' Send email '''
-        return self.conn.send_email(
-                source=self.mail_header(u'蔣偉志', 'me@toomore.net'),
-                to_addresses=self.mail_header(u'蔣太多', 'toomore0929@gmail.com'),
-                subject=u'測試寄件者中文問題',
-                body=u'測試寄件者中文問題',
-                format='html')
-
 if __name__ == '__main__':
     print 'remove comment before use'
     #AwsTools().create_snapshot()
-    #print AwsTools().register_image('snap-b2464c5d', '/dev/sda1', True)
-    #print AwsTools().run_from_image('ami-73fa9972')
-    #print AwsTools().conn.create_tags('i-ebcd6aee', {'Name': 'From boto'})
-    #for i in AwsTools().get_spot_price_history():
+    #print AwsEC2Tools().register_image('snap-b2464c5d', '/dev/sda1', True)
+    #print AwsEC2Tools().run_from_image('ami-73fa9972')
+    #print AwsEC2Tools().conn.create_tags('i-ebcd6aee', {'Name': 'From boto'})
+    #for i in AwsEC2Tools().get_spot_price_history():
     #    print i.region, i.availability_zone, i.timestamp, i.price
-    #print AwsTools().run_spot_instances_from_image('ami-73fa9972', '0.007')
-    #print AwsTools().conn.terminate_instances('i-ae776dac')
-    #print AwsTools().conn.cancel_spot_instance_requests('sir-6c9b0c5b')
-    #print AwsToolsSES().send_email()
+    #print AwsEC2Tools().run_spot_instances_from_image('ami-73fa9972', '0.007')
+    #print AwsEC2Tools().conn.terminate_instances('i-ae776dac')
+    #print AwsEC2Tools().conn.cancel_spot_instance_requests('sir-6c9b0c5b')
