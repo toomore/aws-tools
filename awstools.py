@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 ''' My AWS Tools '''
 from boto import ec2
+from boto import ses
 from boto.ec2.blockdevicemapping import BlockDeviceMapping
 from boto.ec2.blockdevicemapping import BlockDeviceType
 from boto.ec2.networkinterface import NetworkInterfaceCollection
 from boto.ec2.networkinterface import NetworkInterfaceSpecification
 from datetime import datetime
+from email.header import Header
 import setting
 
 
@@ -94,6 +96,23 @@ class AwsTools(object):
                         availability_zone='ap-northeast-1c',
                         max_results='20')
 
+class AwsToolsSES(object):
+    ''' AWS SES tools '''
+    def __init__(self):
+        ''' Make a connect '''
+        self.conn = ses.connection.SESConnection(
+                                     aws_access_key_id=setting.ID,
+                                     aws_secret_access_key=setting.KEY)
+
+    def send_email(self):
+        ''' Send email '''
+        return self.conn.send_email(
+                source='"%s" <%s>' % (Header(u'蔣偉志', 'utf-8'), 'me@toomore.net'),
+                to_addresses='toomore0929@gmail.com',
+                subject=u'測試寄件者中文問題',
+                body=u'測試寄件者中文問題',
+                format='html')
+
 if __name__ == '__main__':
     print 'remove comment before use'
     #AwsTools().create_snapshot()
@@ -105,3 +124,4 @@ if __name__ == '__main__':
     #print AwsTools().run_spot_instances_from_image('ami-73fa9972', '0.007')
     #print AwsTools().conn.terminate_instances('i-ae776dac')
     #print AwsTools().conn.cancel_spot_instance_requests('sir-6c9b0c5b')
+    print AwsToolsSES().send_email()
