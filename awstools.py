@@ -104,11 +104,15 @@ class AwsToolsSES(object):
                                      aws_access_key_id=setting.ID,
                                      aws_secret_access_key=setting.KEY)
 
+    @staticmethod
+    def mail_header(name, mail):
+        return '"%s" <%s>' % (Header(name, 'utf-8'), mail)
+
     def send_email(self):
         ''' Send email '''
         return self.conn.send_email(
-                source='"%s" <%s>' % (Header(u'蔣偉志', 'utf-8'), 'me@toomore.net'),
-                to_addresses='toomore0929@gmail.com',
+                source=self.mail_header(u'蔣偉志', 'me@toomore.net'),
+                to_addresses=self.mail_header(u'蔣太多', 'toomore0929@gmail.com'),
                 subject=u'測試寄件者中文問題',
                 body=u'測試寄件者中文問題',
                 format='html')
@@ -124,4 +128,4 @@ if __name__ == '__main__':
     #print AwsTools().run_spot_instances_from_image('ami-73fa9972', '0.007')
     #print AwsTools().conn.terminate_instances('i-ae776dac')
     #print AwsTools().conn.cancel_spot_instance_requests('sir-6c9b0c5b')
-    print AwsToolsSES().send_email()
+    #print AwsToolsSES().send_email()
