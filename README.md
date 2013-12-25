@@ -9,3 +9,9 @@
 ## AwsSESTools
 
 1. Sender with UTF-8 charset.
+
+## Target
+
+1. SQS Worker.
+2. SES with html template.
+3. S3 files read/write.
