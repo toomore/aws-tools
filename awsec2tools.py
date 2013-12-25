@@ -97,14 +97,14 @@ class AwsEC2Tools(object):
 
 class AwsEC2MetaData(object):
     ''' Show EC2 user/meta data '''
-    USERDATAURL = 'http://169.254.169.254/latest/meta-data'
+    METADATAURL = 'http://169.254.169.254/latest/meta-data'
 
     def __init__(self):
         pass
 
     def get(self, data=''):
         ''' get meta-data info '''
-        result = urllib2.urlopen('%s/%s' % (self.USERDATAURL, data))
+        result = urllib2.urlopen('%s/%s' % (self.METADATAURL, data))
         return result.read()
 
     def keys(self):
