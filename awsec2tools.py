@@ -7,6 +7,7 @@ from boto.ec2.networkinterface import NetworkInterfaceCollection
 from boto.ec2.networkinterface import NetworkInterfaceSpecification
 from datetime import datetime
 import setting
+import urllib2
 
 
 class AwsEC2Tools(object):
@@ -94,6 +95,18 @@ class AwsEC2Tools(object):
                         availability_zone='ap-northeast-1c',
                         max_results='20')
 
+class AwsEC2MetaData(object):
+    ''' Show EC2 user/meta data '''
+    USERDATAURL = 'http://169.254.169.254/latest/meta-data'
+
+    def __init__(self):
+        pass
+
+    def get(self, data=''):
+        ''' get meta-data info '''
+        result = urllib2.urlopen('%s/%s' % (self.USERDATAURL, data))
+        return result.read()
+
 if __name__ == '__main__':
     print 'remove comment before use'
     #AwsTools().create_snapshot()
@@ -105,3 +118,7 @@ if __name__ == '__main__':
     #print AwsEC2Tools().run_spot_instances_from_image('ami-73fa9972', '0.007')
     #print AwsEC2Tools().conn.terminate_instances('i-ae776dac')
     #print AwsEC2Tools().conn.cancel_spot_instance_requests('sir-6c9b0c5b')
+
+    # ----- AwsEC2MetaData ----- #
+    #print AwsEC2MetaData().get('instance-id')
+    #print AwsEC2MetaData().get()
