@@ -107,6 +107,11 @@ class AwsEC2MetaData(object):
         result = urllib2.urlopen('%s/%s' % (self.USERDATAURL, data))
         return result.read()
 
+    def keys(self):
+        ''' Show all meta data keys '''
+        result = self.get().split('\n')
+        return result
+
 if __name__ == '__main__':
     print 'remove comment before use'
     #AwsTools().create_snapshot()
@@ -121,4 +126,6 @@ if __name__ == '__main__':
 
     # ----- AwsEC2MetaData ----- #
     #print AwsEC2MetaData().get('instance-id')
-    #print AwsEC2MetaData().get()
+    #print AwsEC2MetaData().keys()
+    #for i in AwsEC2MetaData().keys():
+    #    print i, AwsEC2MetaData().get(i)
