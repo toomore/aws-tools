@@ -10,6 +10,10 @@
 
 1. Sender with UTF-8 charset.
 
+## AwsEC2MetaData
+
+1. Get EC2 meta-data info.
+
 ## Target
 
 1. SQS Worker.
