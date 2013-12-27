@@ -23,14 +23,19 @@ class AwsEC2Tools(object):
         ''' Get all on running instances'''
         return self.conn.get_all_instances(filters={'instance-state-code': 16})
 
-    def create_snapshot(self, dry_run=False):
+    def create_snapshot(self, instances_id=None, dry_run=False):
         '''Create a snapshot with running instances '''
-        all_instances = []
-        for i in self.get_all_instances():
-            print 'instance', i.instances[0].id
-            all_instances.append(i.instances[0].id)
+        if instances_id:
+            assert isinstance(instances_id, list)
+        else:
+            instances_id = []
+            for i in self.get_all_instances():
+                print 'instance', i.instances[0].id
+                instances_id.append(i.instances[0].id)
 
-        for i in all_instances:
+        print instances_id
+
+        for i in instances_id:
             volumes = self.conn.get_all_volumes(filters={
                     'attachment.instance-id': i})
             print 'volume', volumes
@@ -115,7 +120,9 @@ class AwsEC2MetaData(object):
 
 if __name__ == '__main__':
     print 'remove comment before use'
-    #AwsTools().create_snapshot()
+    # ----- AwsEC2Tools ----- #
+    #AwsEC2Tools().create_snapshot()
+    #AwsEC2Tools().create_snapshot(['i-3aa6a538',])
     #print AwsEC2Tools().register_image('snap-b2464c5d', '/dev/sda1', True)
     #print AwsEC2Tools().run_from_image('ami-73fa9972')
     #print AwsEC2Tools().conn.create_tags('i-ebcd6aee', {'Name': 'From boto'})
