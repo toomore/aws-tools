@@ -25,21 +25,22 @@ class AwsEC2Tools(object):
 
     def create_snapshot(self, dry_run=False):
         '''Create a snapshot with running instances '''
+        all_instances = []
         for i in self.get_all_instances():
             print 'instance', i.instances[0].id
+            all_instances.append(i.instances[0].id)
+
+        for i in all_instances:
             volumes = self.conn.get_all_volumes(filters={
-                    'attachment.instance-id': i.instances[0].id})
+                    'attachment.instance-id': i})
             print 'volume', volumes
 
             for volume in volumes:
                 now = datetime.now()
-                snap = volume.create_snapshot('%s %s' % (i.instances[0].id,
-                                                         now),
-                                              dry_run)
+                snap = volume.create_snapshot('%s %s' % (i, now), dry_run)
                 print 'create_snapshot', snap
                 print 'Add tag', self.conn.create_tags(snap.id,
-                        {'Name': 'AUTO-%s%s-%s' % (now.month, now.day,
-                                                   i.instances[0].id),
+                        {'Name': 'AUTO-%s%s-%s' % (now.month, now.day, i),
                          'CreatedBy': 'boto'}, dry_run)
 
     def register_image(self, snapshot_id, root_device_name,
