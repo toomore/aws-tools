@@ -18,6 +18,10 @@ class AwsS3Tools(object):
 
         return self.bucket.new_key(filename)
 
+    @staticmethod
+    def set_contents(key, file_data):
+        return key.set_contents_from_file(file_data)
+
 if __name__ == '__main__':
     bucket = AwsS3Tools('toomore-aet').bucket
     print bucket.get_all_keys()
@@ -28,6 +32,10 @@ if __name__ == '__main__':
     print dir(files)
 
     # ----- save data ----- #
-    content = StringIO()
-    content.write('Toomore is 蔣太多')
-    print files.set_contents_from_string(content.getvalue())
+    #conutent = StringIO()
+    #content.write('Toomore is 蔣太多')
+    #print files.set_contents_from_string(content.getvalue())
+
+    # ----- save files ----- #
+    with open('./README.md') as file_data:
+        print AwsS3Tools.set_contents(files, file_data)
