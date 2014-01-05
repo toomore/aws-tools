@@ -20,7 +20,12 @@ class AwsS3Tools(object):
 
     @staticmethod
     def set_contents(key, file_data):
-        return key.set_contents_from_file(file_data)
+        if isinstance(file_data, file):
+            return key.set_contents_from_file(file_data)
+        elif isinstance(file_data, str):
+            return key.set_contents_from_string(file_data)
+
+        return type(file_data)
 
 if __name__ == '__main__':
     bucket = AwsS3Tools('toomore-aet').bucket
@@ -32,9 +37,9 @@ if __name__ == '__main__':
     print dir(files)
 
     # ----- save data ----- #
-    #conutent = StringIO()
-    #content.write('Toomore is 蔣太多')
-    #print files.set_contents_from_string(content.getvalue())
+    content = StringIO()
+    content.write('Toomore is 蔣太多')
+    print AwsS3Tools.set_contents(files, content.getvalue())
 
     # ----- save files ----- #
     with open('./README.md') as file_data:
