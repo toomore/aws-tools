@@ -50,9 +50,12 @@ if __name__ == '__main__':
     #    print AwsS3Tools.set_contents(files, file_data)
 
     # ----- read files ----- #
-    content = StringIO()
-    files.get_contents_to_file(content)
-    print content.getvalue()
+    #content = StringIO()
+    #files.get_contents_to_file(content)
+    #print content.getvalue()
+
+    # ----- delete files ----- #
+    print files.delete()
 
     # ----- generate url ----- #
     #print files.generate_url(30)
