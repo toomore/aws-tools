@@ -19,13 +19,16 @@ class AwsS3Tools(object):
         return self.bucket.new_key(filename)
 
     @staticmethod
-    def set_contents(key, file_data):
+    def set_contents(key, file_data, make_public=None):
         if isinstance(file_data, file):
-            return key.set_contents_from_file(file_data)
+            result = key.set_contents_from_file(file_data)
         elif isinstance(file_data, str):
-            return key.set_contents_from_string(file_data)
+            result = key.set_contents_from_string(file_data)
+        else:
+            return type(file_data)
 
-        return type(file_data)
+        key.make_public() if make_public else None
+        return result
 
 if __name__ == '__main__':
     bucket = AwsS3Tools('toomore-aet').bucket
@@ -37,10 +40,14 @@ if __name__ == '__main__':
     print dir(files)
 
     # ----- save data ----- #
-    content = StringIO()
-    content.write('Toomore is 蔣太多')
-    print AwsS3Tools.set_contents(files, content.getvalue())
+    #content = StringIO()
+    #content.write('Toomore is 蔣太多')
+    #print AwsS3Tools.set_contents(files, content.getvalue(), True)
 
     # ----- save files ----- #
-    with open('./README.md') as file_data:
-        print AwsS3Tools.set_contents(files, file_data)
+    #with open('./README.md') as file_data:
+    #    print AwsS3Tools.set_contents(files, file_data)
+
+
+    # ----- generate url ----- #
+    print files.generate_url(30)
