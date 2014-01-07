@@ -35,6 +35,7 @@ if __name__ == '__main__':
     print bucket.get_all_keys()
     print dir(bucket)
 
+    # ----- create data ----- #
     files = AwsS3Tools('toomore-aet').open('toomore.txt')
     print files
     print dir(files)
@@ -48,6 +49,10 @@ if __name__ == '__main__':
     #with open('./README.md') as file_data:
     #    print AwsS3Tools.set_contents(files, file_data)
 
+    # ----- read files ----- #
+    content = StringIO()
+    files.get_contents_to_file(content)
+    print content.getvalue()
 
     # ----- generate url ----- #
-    print files.generate_url(30)
+    #print files.generate_url(30)
