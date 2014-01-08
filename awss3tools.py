@@ -45,6 +45,9 @@ class AwsS3Tools(object):
     def update(self, file_data, *args, **kwargs):
         return self.save(file_data, *args, **kwargs)
 
+    def delete(self):
+        return self.keys.delete()
+
 if __name__ == '__main__':
     #bucket = AwsS3Tools('toomore-aet').bucket
     #print bucket.get_all_keys()
