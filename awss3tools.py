@@ -30,6 +30,13 @@ class AwsS3Tools(object):
         self.keys.make_public() if make_public else None
         return result
 
+    def read(self):
+        result = StringIO()
+        self.keys.get_contents_to_file(result)
+        result.seek(0)
+
+        return result
+
 if __name__ == '__main__':
     #bucket = AwsS3Tools('toomore-aet').bucket
     #print bucket.get_all_keys()
@@ -41,18 +48,17 @@ if __name__ == '__main__':
     print dir(files)
 
     # ----- save data ----- #
-    content = StringIO()
-    content.write('Toomore is 蔣太多')
-    print files.save(content.getvalue(), True)
+    #content = StringIO()
+    #content.write('Toomore is 蔣太多')
+    #print files.save(content.getvalue(), True)
 
     # ----- save files ----- #
-    with open('./README.md') as file_data:
-        print files.save(file_data, True)
+    #with open('./README.md') as file_data:
+    #    print files.save(file_data, True)
 
     # ----- read files ----- #
-    #content = StringIO()
-    #files.get_contents_to_file(content)
-    #print content.getvalue()
+    content = files.read()
+    print content.read()
 
     # ----- delete files ----- #
     #print files.delete()
