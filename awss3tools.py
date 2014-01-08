@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
+from cStringIO import InputType
+from cStringIO import OutputType
 from cStringIO import StringIO
 import setting
 
@@ -20,7 +22,10 @@ class AwsS3Tools(object):
         return self.bucket.new_key(filename)
 
     def save(self, file_data, make_public=None):
-        if isinstance(file_data, file):
+        if isinstance(file_data, (file, InputType, OutputType)):
+            if isinstance(file_data, (InputType, OutputType)):
+                file_data.seek(0)
+
             result = self.keys.set_contents_from_file(file_data)
         elif isinstance(file_data, str):
             result = self.keys.set_contents_from_string(file_data)
@@ -36,6 +41,9 @@ class AwsS3Tools(object):
         result.seek(0)
 
         return result
+
+    def update(self, file_data, *args, **kwargs):
+        return self.save(file_data, *args, **kwargs)
 
 if __name__ == '__main__':
     #bucket = AwsS3Tools('toomore-aet').bucket
@@ -59,6 +67,12 @@ if __name__ == '__main__':
     # ----- read files ----- #
     content = files.read()
     print content.read()
+
+    # ----- update files ----- #
+    content.writelines('Toomore is Toomore')
+    content.writelines('Toomore is Toomore')
+    print files.update(content)
+    print files.read().getvalue()
 
     # ----- delete files ----- #
     #print files.delete()
