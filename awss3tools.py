@@ -65,14 +65,19 @@ if __name__ == '__main__':
     #    print files.save(file_data, True)
 
     # ----- read files ----- #
-    content = files.read()
-    print content.read()
+    #content = files.read()
+    #print content.read()
 
     # ----- update files ----- #
-    content.writelines('Toomore is Toomore')
-    content.writelines('Toomore is Toomore')
-    print files.update(content)
-    print files.read().getvalue()
+    #content.writelines('Toomore is Toomore')
+    #content.writelines('Toomore is Toomore')
+    #print files.update(content)
+    #print files.read().getvalue()
+
+    # ----- get keys acl ----- #
+    #print dir(files.keys)
+    #print dir(files.keys.get_acl())
+    #print files.keys.get_acl().to_xml()
 
     # ----- delete files ----- #
     #print files.delete()
