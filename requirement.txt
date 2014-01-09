@@ -1,1 +1,7 @@
 boto
+gevent==0.13.8
+pip>=1.4
+setuptools>=0.9
+wheel>=0.21
+pip-tools
+pylint
