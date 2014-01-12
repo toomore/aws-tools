@@ -7,7 +7,6 @@ monkey.patch_all()
 import urllib2
 from datetime import datetime
 
-pool = Pool(5)
 
 def fetch_data(url):
     print datetime.now(), 'Start', url
@@ -16,19 +15,25 @@ def fetch_data(url):
     print url, result
     return result.info()
 
-url = [
-        'http://www.google.com.tw/',
-        'http://www.yahoo.com/',
-        'http://toomore.net/',
-        'http://pinkoi.toomore.net/',
-      ]
+def gevent_pool(func, spawn_list, pool_size=5):
+    pool = Pool(pool_size)
+    gevent_spawn_list = []
 
-gevent_spawn_list = []
+    for i in spawn_list:
+        gevent_spawn_list.append(pool.spawn(func, *i))
 
-for i in url:
-    gevent_spawn_list.append(pool.spawn(fetch_data, i))
+    gevent.joinall(gevent_spawn_list)
+    return gevent_spawn_list
 
-gevent.joinall(gevent_spawn_list)
+if __name__ == '__main__':
+    url = [
+            ('http://www.google.com.tw/',),
+            ('http://www.yahoo.com/',),
+            ('http://toomore.net/',),
+            ('http://pinkoi.toomore.net/',),
+          ]
 
-for i in gevent_spawn_list:
-    print i.get()
+    result = gevent_pool(fetch_data, url, 5)
+
+    for i in result:
+        print i.get()
