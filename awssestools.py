@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ''' My AWS Tools '''
+import setting
 from boto import ses
 from email.header import Header
-import setting
 
 
 class AwsSESTools(object):

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 ''' My AWS Tools '''
+import setting
+import urllib2
 from boto import ec2
 from boto.ec2.blockdevicemapping import BlockDeviceMapping
 from boto.ec2.blockdevicemapping import BlockDeviceType
 from boto.ec2.networkinterface import NetworkInterfaceCollection
 from boto.ec2.networkinterface import NetworkInterfaceSpecification
 from datetime import datetime
-import setting
-import urllib2
 
 
 class AwsEC2Tools(object):

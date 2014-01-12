@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+import setting
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 from cStringIO import InputType
 from cStringIO import OutputType
 from cStringIO import StringIO
-import setting
 
 
 class AwsS3Tools(object):
