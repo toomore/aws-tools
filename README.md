@@ -19,6 +19,11 @@
 1. CRUD files by using S3.
 2. #TODO update key with the same acl.
 
+## AwsSQSTools
+
+1. write/get messages.
+2. #TODO increase ``get_messages`` concurrency.
+
 ## Target
 
 1. SQS Worker.
