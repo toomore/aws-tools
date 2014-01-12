@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import sys
-sys.path.append('../')
+import os
+sys.path.insert(0, '../')
 
+import time
 from awsec2tools import AwsEC2MetaData
 from awsec2tools import AwsEC2Tools
-import time
+
 
 # Deploy to an instance and using cron.
 INSTANCE_ID = AwsEC2MetaData().get('instance-id')
