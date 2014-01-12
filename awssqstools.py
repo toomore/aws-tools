@@ -14,7 +14,12 @@ class AwsSQSTools(object):
     def get(self, *args, **kwargs):
         return self.conn.get_all_queues(*args, **kwargs)
 
+    def write(self, body):
+        return self.queue.write(self.queue.new_message(body))
+
 if __name__ == '__main__':
     sqs = AwsSQSTools('test_toomore')
     print sqs.queue
     print sqs.get('test_')
+    print dir(sqs.queue)
+    print sqs.write(str(range(10)))
