@@ -10,7 +10,7 @@ class AwsSQSTools(object):
                                       aws_secret_access_key=setting.KEY)
         self.queue = self.conn.create_queue(queue_name)
 
-    def get(self, *args, **kwargs):
+    def get_all_queues(self, *args, **kwargs):
         return self.conn.get_all_queues(*args, **kwargs)
 
     def write(self, body):
@@ -23,7 +23,7 @@ class AwsSQSTools(object):
 if __name__ == '__main__':
     sqs = AwsSQSTools('test_toomore')
     print sqs.queue
-    print sqs.get('test_')
+    print sqs.get_all_queues('test_')
     print dir(sqs.queue)
     #print sqs.write(str(range(10)))
     print list(sqs.get_messages())
