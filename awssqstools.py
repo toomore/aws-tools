@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import setting
 from boto.sqs import connect_to_region
-from boto.sqs.connection import SQSConnection
 
 
 class AwsSQSTools(object):
