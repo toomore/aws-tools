@@ -6,22 +6,17 @@
 Welcome to aws-tools's documentation!
 =====================================
 
-Contents:
-
-.. toctree::
-   :maxdepth: 2
-
 My AWS Tools
 ===============
 
 AwsEC2Tools
 ---------------
 
-:doc:`./awsec2tools`
-
 1. Auto snapshot. (create_snapshot)
 2. Created from AMIs in VPC. (register_image, run_from_image)
 3. Created spot instances in VPC. (run_spot_instances_from_image, get_spot_price_history)
+
+.. seealso:: :doc:`./awsec2tools`
 
 AwsSESTools
 ---------------
