@@ -10,3 +10,4 @@ log
 piconfig.py
 setting.py
 venv
+doc/_build/
