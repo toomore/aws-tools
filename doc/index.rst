@@ -23,6 +23,8 @@ AwsSESTools
 
 1. Sender with UTF-8 charset.
 
+.. seealso:: :doc:`./awssestools`
+
 AwsEC2MetaData
 ---------------
 

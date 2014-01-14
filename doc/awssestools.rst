@@ -1,0 +1,5 @@
+awssestools
+==============================
+
+.. automodule:: awssestools 
+   :members:
