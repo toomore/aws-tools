@@ -46,6 +46,8 @@ AwsSQSTools
 1. write/get messages.
 2. #TODO increase ``get_messages`` concurrency.
 
+.. seealso:: :doc:`./awssqstools`
+
 Target
 ---------------
 
