@@ -18,17 +18,19 @@ AwsEC2Tools
 
 .. seealso:: :doc:`./awsec2tools`
 
+AwsEC2MetaData
+---------------
+
+1. Get EC2 meta-data info.
+
+.. seealso:: :doc:`./awsec2tools`
+
 AwsSESTools
 ---------------
 
 1. Sender with UTF-8 charset.
 
 .. seealso:: :doc:`./awssestools`
-
-AwsEC2MetaData
----------------
-
-1. Get EC2 meta-data info.
 
 AwsS3Tools
 ---------------
