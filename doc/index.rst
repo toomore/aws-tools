@@ -38,6 +38,8 @@ AwsS3Tools
 1. CRUD files by using S3.
 2. #TODO update key with the same acl.
 
+.. seealso:: :doc:`./awss3tools`
+
 AwsSQSTools
 ---------------
 
