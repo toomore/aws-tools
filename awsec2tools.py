@@ -20,11 +20,22 @@ class AwsEC2Tools(object):
                                      aws_secret_access_key=setting.KEY)
 
     def get_all_instances(self):
-        ''' Get all on running instances'''
+        ''' Get all on running instances
+
+            :rtype: list
+            :returns: A list of :class:`boto.ec2.instance.Reservation`
+        '''
+
         return self.conn.get_all_instances(filters={'instance-state-code': 16})
 
     def create_snapshot(self, instances_id=None, dry_run=False):
-        '''Create a snapshot with running instances '''
+        '''Create a snapshot with running instances
+
+           :param str instances_id: instances id.
+           :param bool dry_run: dry_run.
+           :returns: snapshot id
+           :rtype: str
+        '''
         if instances_id:
             assert isinstance(instances_id, list)
         else:
@@ -54,7 +65,14 @@ class AwsEC2Tools(object):
 
     def register_image(self, snapshot_id, root_device_name,
             delete_on_termination=False):
-        ''' Register a AMI '''
+        ''' Register a AMI
+
+            :param str snapshot_id: snapshot id
+            :param path root_device_name: path of root device
+            :param bool delete_on_termination: delete on termination
+            :rtype: string
+            :returns: The new image id
+        '''
 
         # To make delete_on_termination, need to create a block_device_map
         root_vol = BlockDeviceType(snapshot_id=snapshot_id,
@@ -72,7 +90,13 @@ class AwsEC2Tools(object):
                                         block_device_map=block_device_map)
 
     def run_from_image(self, image_id):
-        ''' Create instance from image in VPC '''
+        ''' Create instance from image in VPC
+
+            :param str image_id: image id.
+            :rtype: :class:`boto.ec2.instance.Reservation`
+            :returns: The :class:`boto.ec2.instance.Reservation` associated with
+                      the request for machines
+        '''
         image = self.conn.get_image(image_id)
         image.run(instance_type='t1.micro', security_group_ids=['sg-16d2d974',],
                   subnet_id='subnet-4e8fda08', #VPC
@@ -80,7 +104,14 @@ class AwsEC2Tools(object):
         return image
 
     def run_spot_instances_from_image(self, image_id, price):
-        ''' Create spot instances from image '''
+        ''' Create spot instances from image_id
+
+            :param str image_id: image id.
+            :param str price: max limit price.
+            :rtype: :class:`boto.ec2.spotinstancerequest.SpotInstanceRequest`
+            :returns: The :class:`boto.ec2.spotinstancerequest.SpotInstanceRequest`
+                      associated with the request for machines.
+        '''
         network_interfaces = NetworkInterfaceSpecification(
                                 subnet_id='subnet-4e8fda08',
                                 private_ip_address='10.0.11.123',
@@ -98,7 +129,11 @@ class AwsEC2Tools(object):
                                          network_interfaces=network_interfaces)
 
     def get_spot_price_history(self):
-        ''' Get spot instances history '''
+        ''' Get spot instances history
+
+            :rtype: list
+            :returns: A list tuples containing price and timestamp.
+        '''
         return self.conn.get_spot_price_history(
                         instance_type='t1.micro',
                         product_description='Linux/UNIX (Amazon VPC)',
@@ -113,12 +148,21 @@ class AwsEC2MetaData(object):
         pass
 
     def get(self, data=''):
-        ''' get meta-data info '''
+        ''' get meta-data info
+
+            :param str data: data name.
+            :rtype: str
+            :returns: instance data.
+        '''
         result = urllib2.urlopen('%s/%s' % (self.METADATAURL, data))
         return result.read()
 
     def keys(self):
-        ''' Show all meta data keys '''
+        ''' Show all meta data keys
+
+            :rtype: str
+            :returns: all meta data key name.
+        '''
         result = self.get().split('\n')
         return result
 
