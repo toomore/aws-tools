@@ -65,6 +65,11 @@ Target
 2. SES with html template.
 3. gevent.
 
+Some scripts
+=============
+
+.. seealso:: :doc:`./scripttools`
+
 TODO List
 ===========
 
