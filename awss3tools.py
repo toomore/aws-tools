@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-''' AwsS3Tools  '''
+'''
+Files create, update, read, delete through AWS S3.
+'''
 import setting
 from boto.s3.connection import S3Connection
 from cStringIO import InputType
@@ -14,6 +16,17 @@ class AwsS3Tools(object):
         :param str open_file: filename, the same with s3 object key name.
         :rtype: :class:`boto.s3.connection`
         :return: :class:`boto.s3.connection`
+
+        Connect bucket with filename:
+
+        >>> FILES = AwsS3Tools('toomore-aet', 'toomore.txt')
+        >>> print FILES
+
+        Connect bucket without filename but using
+        :py:func:`open`:
+
+        >>> FILES = AwsS3Tools('toomore-aet')
+        >>> FILES.open('toomore.txt')
     '''
     def __init__(self, bucket, open_file=None):
         self.conn = S3Connection(setting.ID, setting.KEY)
@@ -27,6 +40,8 @@ class AwsS3Tools(object):
         ''' Open a file by keyname
 
             :param str filename: filename, the same with s3 object key name.
+
+            >>> FILES.open('toomore.txt')
 
             .. note::
                No return value, key object will put into :attr:`AwsS3Tools.keys`
@@ -43,6 +58,10 @@ class AwsS3Tools(object):
             :param bool make_public: to be public
             :rtype: int
             :returns: file size in byte.
+
+            >>> with open('./README.md') as file_data:
+            ...     print FILES.save(file_data, True)
+
         '''
         if isinstance(file_data, (file, InputType, OutputType)):
             if isinstance(file_data, (InputType, OutputType)):
@@ -60,7 +79,11 @@ class AwsS3Tools(object):
         return result
 
     def read(self):
-        ''' Read file from S3 '''
+        ''' Read file from S3
+
+            >>> content = FILES.read()
+            >>> print content.read()
+        '''
         result = StringIO()
         self.keys.get_contents_to_file(result)
         result.seek(0)
@@ -73,6 +96,12 @@ class AwsS3Tools(object):
             :param file file_data: file data
             :rtype: int
             :returns: file size in byte.
+
+            >>> content = FILES.read()
+            >>> print content.read()
+            >>> content.writelines('Toomore is Toomore')
+            >>> FILES.update(content)
+            >>> print FILES.read().getvalue()
         '''
         return self.save(file_data, *args, **kwargs)
 
