@@ -1,11 +1,6 @@
 Some scripts.
 ==============================
 
-.. toctree::
-   :maxdepth: 2
-
-   scripttools
-
 daily auto snapshot
 -------------------
 

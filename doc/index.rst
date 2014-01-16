@@ -12,9 +12,12 @@ My AWS Tools
 :requirement: `boto <https://github.com/boto/boto>`_
 
 .. toctree::
-   :maxdepth: 2
+   :hidden:
 
-   index
+   awsec2tools
+   awssestools
+   awss3tools
+   awssqstools
 
 What Tools
 ============
