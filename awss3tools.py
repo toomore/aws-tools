@@ -8,23 +8,42 @@ from cStringIO import StringIO
 
 
 class AwsS3Tools(object):
-    ''' AwsS3Tools '''
+    ''' AwsS3Tools
+
+        :param str bucket: s3 bucket Name
+        :param str open_file: filename, the same with s3 object key name.
+        :rtype: :class:`boto.s3.connection`
+        :return: :class:`boto.s3.connection`
+    '''
     def __init__(self, bucket, open_file=None):
         self.conn = S3Connection(setting.ID, setting.KEY)
         self.bucket = self.conn.get_bucket(bucket)
-        self.keys = self.open(open_file)
+        if open_file:
+            self.open(open_file)
+        else:
+            self.keys = None
 
     def open(self, filename):
-        ''' Open a file by keyname '''
+        ''' Open a file by keyname
+
+            :param str filename: filename, the same with s3 object key name.
+
+            .. note::
+               No return value, key object will put into :attr:`AwsS3Tools.keys`
+
+        '''
         get_files = self.bucket.get_key(filename)
+        result = get_files if get_files else self.bucket.new_key(filename)
+        self.keys = result
 
-        if get_files:
-            return get_files
+    def save(self, file_data, make_public=False):
+        ''' Save file to S3
 
-        return self.bucket.new_key(filename)
-
-    def save(self, file_data, make_public=None):
-        ''' Save file to S3 '''
+            :param file file_data: file data
+            :param bool make_public: to be public
+            :rtype: int
+            :returns: file size in byte.
+        '''
         if isinstance(file_data, (file, InputType, OutputType)):
             if isinstance(file_data, (InputType, OutputType)):
                 file_data.seek(0)
@@ -49,7 +68,12 @@ class AwsS3Tools(object):
         return result
 
     def update(self, file_data, *args, **kwargs):
-        ''' Update file. '''
+        ''' Update file.
+
+            :param file file_data: file data
+            :rtype: int
+            :returns: file size in byte.
+        '''
         return self.save(file_data, *args, **kwargs)
 
     def delete(self):
@@ -61,15 +85,19 @@ if __name__ == '__main__':
     #print bucket.get_all_keys()
     #print dir(bucket)
 
-    # ----- create data ----- #
-    FILES = AwsS3Tools('toomore-aet', 'toomore.txt')
-    print FILES
-    print dir(FILES)
+    # ----- create data 1 ----- #
+    #FILES = AwsS3Tools('toomore-aet', 'toomore.txt')
+    #print FILES
+    #print dir(FILES)
+
+    # ----- create data 2 ----- #
+    FILES = AwsS3Tools('toomore-aet')
+    FILES.open('toomore.txt')
 
     # ----- save data ----- #
-    #content = StringIO()
-    #content.write('Toomore is 蔣太多')
-    #print FILES.save(content.getvalue(), True)
+    content = StringIO()
+    content.write('Toomore is 蔣太多')
+    print FILES.save(content.getvalue(), True)
 
     # ----- save files ----- #
     #with open('./README.md') as file_data:
