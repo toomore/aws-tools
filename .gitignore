@@ -4,6 +4,7 @@
 *.pylint
 *.rdb
 *.swp
+*.sh
 .env
 build
 log
