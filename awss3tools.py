@@ -102,6 +102,8 @@ class AwsS3Tools(object):
             >>> content.writelines('Toomore is Toomore')
             >>> FILES.update(content)
             >>> print FILES.read().getvalue()
+
+            .. todo:: update key with the same acl.
         '''
         return self.save(file_data, *args, **kwargs)
 

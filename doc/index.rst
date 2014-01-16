@@ -7,7 +7,17 @@ Welcome to aws-tools's documentation!
 =====================================
 
 My AWS Tools
-===============
+
+:github: https://github.com/toomore/aws-tools
+:requirment: `boto <https://github.com/boto/boto>`_
+
+.. toctree::
+   :maxdepth: 2
+
+   index
+
+What Tools
+============
 
 AwsEC2Tools
 ---------------
@@ -49,14 +59,14 @@ AwsSQSTools
 .. seealso:: :doc:`./awssqstools`
 
 Target
----------------
+========
 
 1. SQS Worker.
 2. SES with html template.
 3. gevent.
 
 TODO List
----------------
+===========
 
 .. todolist::
 
