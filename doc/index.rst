@@ -9,7 +9,7 @@ Welcome to aws-tools's documentation!
 My AWS Tools
 
 :github: https://github.com/toomore/aws-tools
-:requirment: `boto <https://github.com/boto/boto>`_
+:requirement: `boto <https://github.com/boto/boto>`_
 
 .. toctree::
    :maxdepth: 2

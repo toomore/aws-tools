@@ -4,6 +4,8 @@ awsec2tools
 .. toctree::
    :maxdepth: 2
 
+   awsec2tools
+
 
 awsec2tools.AwsEC2Tools
 -----------------------------

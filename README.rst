@@ -1,6 +1,8 @@
 My AWS Tools
 ===============
 
+:docs: http://aws-tools-docs.toomore.net/
+
 AwsEC2Tools
 ---------------
 
