@@ -16,8 +16,9 @@ My AWS Tools
 
    AwsEC2Tools <awsec2tools>
    AwsSESTools <awssestools>
-   awss3tools
-   awssqstools
+   AwsS3Tools <awss3tools>
+   AwsSQSTools <awssqstools>
+   Some scripts <scripttools>
 
 What Tools
 ============
