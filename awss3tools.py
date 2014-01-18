@@ -81,6 +81,8 @@ class AwsS3Tools(object):
     def read(self):
         ''' Read file from S3
 
+            :rtype: :py:class:`cStringIO.StringIO`
+
             >>> content = FILES.read()
             >>> print content.read()
         '''
