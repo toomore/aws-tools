@@ -34,6 +34,7 @@ import awssestools
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.pngmath',
@@ -270,3 +271,7 @@ texinfo_documents = [
 #texinfo_no_detailmenu = False
 
 todo_include_todos = True
+
+# Example configuration for intersphinx: refer to the Python standard library.
+intersphinx_mapping = {'python': ('http://docs.python.org/', None),
+                       'boto': ('http://boto.readthedocs.org/en/latest/', None),}
