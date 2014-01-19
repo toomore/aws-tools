@@ -41,6 +41,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
+    'rst2pdf.pdfbuilder',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -275,3 +276,12 @@ todo_include_todos = True
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'python': ('http://docs.python.org/', None),
                        'boto': ('http://boto.readthedocs.org/en/latest/', None),}
+
+# -- Options for PDF output --------------------------------------------------
+pdf_documents = [
+        ('index', u'aws-tools', u'aws-tools', u'Toomore Chiang'),
+    ]
+pdf_stylesheets = ['sphinx', 'kerning', 'a4']
+pdf_style_path = ['.', '_styles']
+pdf_use_numbered_links = False
+pdf_fit_background_mode = 'scale'
