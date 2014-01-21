@@ -11,4 +11,4 @@ log
 piconfig.py
 setting.py
 venv
-doc/_build/
+docs/_build/
