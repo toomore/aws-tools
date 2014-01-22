@@ -18,10 +18,10 @@ def gevent_pool(func, spawn_list, pool_size=5):
     gevent.joinall(gevent_spawn_list)
     return gevent_spawn_list
 
-if __name__ == '__main__':
-    #def fetch_data(*args, **kwargs):
-    #    return args, kwargs
+def midfunc(*args, **kwargs):
+    return args, kwargs
 
+if __name__ == '__main__':
     def fetch_data(url):
         print datetime.now(), 'Start', url
         result = urllib2.urlopen(url)
@@ -30,10 +30,10 @@ if __name__ == '__main__':
         return result.info()
 
     url = [
-            (('http://www.google.com.tw/',), {}),
-            (('http://toomore.net/',), {}),
-            (('http://pinkoi.toomore.net/',), {}),
-            ((), {'url': 'http://www.pinkoi.com/'}),
+            midfunc('http://www.google.com.tw/'),
+            midfunc('http://toomore.net/'),
+            midfunc('http://pinkoi.toomore.net/'),
+            midfunc(url='http://www.pinkoi.com/'),
           ]
     t1 = datetime.now()
     result = gevent_pool(fetch_data, url*20, 20)
