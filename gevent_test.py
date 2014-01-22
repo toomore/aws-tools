@@ -33,7 +33,8 @@ if __name__ == '__main__':
             ('http://pinkoi.toomore.net/',),
           ]
 
-    result = gevent_pool(fetch_data, url, 5)
+    result = gevent_pool(fetch_data, url*20, 5)
 
     for i in result:
         print i.get()
+    print result

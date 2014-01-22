@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 ''' AwsSQSTools '''
+from gevent import monkey
+monkey.patch_all()
+
 import setting
 from boto.sqs import connect_to_region
+from gevent_test import gevent_pool
 
 
 class AwsSQSTools(object):
@@ -42,10 +46,23 @@ class AwsSQSTools(object):
         for i in self.queue.get_messages(num_messages, *args, **kwargs):
             yield i.get_body()
 
+    def get_messages2(self, num_messages=10, *args, **kwargs):
+        data_list = [(1,) for i in xrange(num_messages)]
+        pools = gevent_pool(self.queue.get_messages, data_list)
+        return [i.get()[0].get_body() for i in pools if i.get()]
+
 if __name__ == '__main__':
+    from datetime import datetime
     SQS = AwsSQSTools('test_toomore')
-    print SQS.queue
-    print SQS.get_all_queues('test_')
-    print dir(SQS.queue)
-    #print SQS.write(str(range(10)))
-    print list(SQS.get_messages())
+    #print SQS.queue
+    #print SQS.get_all_queues('test_')
+    #print dir(SQS.queue)
+    #print [SQS.write(str(i)) for i in xrange(10)]
+
+    #print gevent_pool(SQS.write, [str(i) for i in xrange(10)])
+    t1 = datetime.now()
+    ##print list(SQS.get_messages())
+    t2 = datetime.now()
+    print SQS.get_messages2()
+    t3 = datetime.now()
+    print t2 - t1, t3 - t2
