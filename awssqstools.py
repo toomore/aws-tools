@@ -31,6 +31,15 @@ class AwsSQSTools(object):
         return self.queue.write(self.queue.new_message(body))
 
     def write_batch(self, body_list):
+        ''' Write huge messages will be split 10 messages
+            in each single request.
+
+            :param list body_list: a list of message raw data.
+            :rtype: list
+            :returns: :class:`boto.sqs.batchresults.BatchResults` in list
+
+            .. todo:: default args.
+        '''
         result = []
         for loops in xrange(len(body_list) / 10):
             returns = self.queue.write_batch([(i, b64encode(body), 0) for i, body in enumerate(body_list[10*loops:10*(loops+1)])])
