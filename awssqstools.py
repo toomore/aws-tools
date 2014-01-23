@@ -52,4 +52,6 @@ if __name__ == '__main__':
     t1 = datetime.now()
     print list(SQS.get_messages())
     t2 = datetime.now()
-    print t2 - t1
+    print list(SQS.get_messages())
+    t3 = datetime.now()
+    print t2 - t1, t3 - t2
