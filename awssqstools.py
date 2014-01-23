@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 ''' AwsSQSTools '''
 import setting
+from base64 import b64encode
 from boto.sqs import connect_to_region
 
 
@@ -29,6 +30,9 @@ class AwsSQSTools(object):
 
         return self.queue.write(self.queue.new_message(body))
 
+    def write_batch(self, body_list):
+        return self.queue.write_batch([(i, b64encode(body), 0) for i, body in enumerate(body_list)])
+
     def get_messages(self, num_messages=10, *args, **kwargs):
         ''' Get messages from queue
 
@@ -43,12 +47,25 @@ class AwsSQSTools(object):
             yield i.get_body()
 
 if __name__ == '__main__':
+    import json
     from datetime import datetime
+
     SQS = AwsSQSTools('test_toomore')
     #print SQS.queue
     #print SQS.get_all_queues('test_')
     #print dir(SQS.queue)
     #print [SQS.write(str(i)) for i in xrange(10)]
+
+    # ----- test write / write_batch ----- #
+    print SQS.queue.clear()
+    t1 = datetime.now()
+    print [SQS.write(json.dumps(i)) for i in [dict(name=u'國'),]*10]
+    t2 = datetime.now()
+    print SQS.write_batch([json.dumps(i) for i in [dict(name=u'國'),]*10])
+    t3 = datetime.now()
+    print t2 - t1, t3 - t2
+
+    # ----- test get_messages ----- #
     t1 = datetime.now()
     print list(SQS.get_messages())
     t2 = datetime.now()
