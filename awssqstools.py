@@ -31,7 +31,12 @@ class AwsSQSTools(object):
         return self.queue.write(self.queue.new_message(body))
 
     def write_batch(self, body_list):
-        return self.queue.write_batch([(i, b64encode(body), 0) for i, body in enumerate(body_list)])
+        result = []
+        for loops in xrange(len(body_list) / 10):
+            returns = self.queue.write_batch([(i, b64encode(body), 0) for i, body in enumerate(body_list[10*loops:10*(loops+1)])])
+            result.append(returns)
+
+        return result
 
     def get_messages(self, num_messages=10, *args, **kwargs):
         ''' Get messages from queue
@@ -59,9 +64,9 @@ if __name__ == '__main__':
     # ----- test write / write_batch ----- #
     print SQS.queue.clear()
     t1 = datetime.now()
-    print [SQS.write(json.dumps(i)) for i in [dict(name=u'國'),]*10]
+    print [SQS.write(json.dumps(i)) for i in [dict(name=u'國'),]*20]
     t2 = datetime.now()
-    print SQS.write_batch([json.dumps(i) for i in [dict(name=u'國'),]*10])
+    print SQS.write_batch([json.dumps(i) for i in [dict(name=u'國'),]*20])
     t3 = datetime.now()
     print t2 - t1, t3 - t2
 
