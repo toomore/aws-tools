@@ -41,7 +41,7 @@ class AwsSQSTools(object):
             .. todo:: default args.
         '''
         result = []
-        for loops in xrange(len(body_list) / 10):
+        for loops in xrange(len(body_list) / 10 + 1):
             returns = self.queue.write_batch([(i, b64encode(body), 0) for i, body in enumerate(body_list[10*loops:10*(loops+1)])])
             result.append(returns)
 
@@ -73,9 +73,9 @@ if __name__ == '__main__':
     # ----- test write / write_batch ----- #
     print SQS.queue.clear()
     t1 = datetime.now()
-    print [SQS.write(json.dumps(i)) for i in [dict(name=u'國'),]*20]
+    print [SQS.write(json.dumps(i)) for i in [dict(name=u'國'),]*23]
     t2 = datetime.now()
-    print SQS.write_batch([json.dumps(i) for i in [dict(name=u'國'),]*20])
+    print SQS.write_batch([json.dumps(i) for i in [dict(name=u'國'),]*23])
     t3 = datetime.now()
     print t2 - t1, t3 - t2
 
