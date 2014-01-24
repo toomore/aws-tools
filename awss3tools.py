@@ -14,8 +14,8 @@ class AwsS3Tools(object):
 
         :param str bucket: s3 bucket Name
         :param str open_file: filename, the same with s3 object key name.
-        :rtype: :class:`boto.s3.connection`
-        :return: :class:`boto.s3.connection`
+        :rtype: :class:`boto.s3.connection.S3Connection`
+        :return: :class:`boto.s3.connection.S3Connection`
 
         Connect bucket with filename:
 
@@ -44,7 +44,7 @@ class AwsS3Tools(object):
             >>> FILES.open('toomore.txt')
 
             .. note::
-               No return value, key object will put into :attr:`AwsS3Tools.keys`
+               No return value, key object will put into ``self.keys``
 
         '''
         get_files = self.bucket.get_key(filename)
