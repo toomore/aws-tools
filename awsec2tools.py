@@ -58,7 +58,7 @@ class AwsEC2Tools(object):
                 result_snap.append(snap)
                 print 'create_snapshot', snap
                 print 'Add tag', self.conn.create_tags(snap.id,
-                        {'Name': 'AUTO-%s%s-%s' % (now.month, now.day, i),
+                        {'Name': 'AUTO-%02d%02d-%s' % (now.month, now.day, i),
                          'CreatedBy': 'boto'}, dry_run)
 
         return result_snap
@@ -81,9 +81,10 @@ class AwsEC2Tools(object):
         block_device_map[root_device_name] = root_vol
 
         now = datetime.now()
-        return self.conn.register_image(name='AMI-%s%s' % (now.month, now.day),
-                                        description='AMI-%s%s' % (now.month,
-                                                                  now.day),
+        return self.conn.register_image(name='AMI-%02d%02d' % (now.month,
+                                                               now.day),
+                                        description='AMI-%02d%02d' % (now.month,
+                                                                      now.day),
                                         architecture='x86_64',
                                         kernel_id='aki-176bf516',
                                         root_device_name=root_device_name,
