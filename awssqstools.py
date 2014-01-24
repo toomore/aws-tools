@@ -42,8 +42,11 @@ class AwsSQSTools(object):
         '''
         result = []
         for loops in xrange(len(body_list) / 10 + 1):
-            returns = self.queue.write_batch([(i, b64encode(body), 0) for i, body in enumerate(body_list[10*loops:10*(loops+1)])])
-            result.append(returns)
+            batch = []
+            for no_msg, body in enumerate(body_list[10*loops:10*(loops+1)]):
+                batch.append((no_msg, b64encode(body), 0))
+
+            result.append(self.queue.write_batch(batch))
 
         return result
 
@@ -57,8 +60,8 @@ class AwsSQSTools(object):
             .. todo:: Need to increase `get_messages` concurrency.
 
         '''
-        for i in self.queue.get_messages(num_messages, *args, **kwargs):
-            yield i.get_body()
+        for msg in self.queue.get_messages(num_messages, *args, **kwargs):
+            yield msg.get_body()
 
 if __name__ == '__main__':
     import json
