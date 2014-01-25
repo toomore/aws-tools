@@ -55,13 +55,15 @@ class AwsSQSTools(object):
 
             :param int num_messages: get message in one time.
             :rtype: list
-            :returns: a list of message body.
+            :returns: A list of :class:`boto.sqs.message.Message` objects
 
-            .. todo:: Need to increase `get_messages` concurrency.
+            .. todo::
+               - Need to increase `get_messages` concurrency.
+               - Maybe auto convert json object.
 
         '''
         for msg in self.queue.get_messages(num_messages, *args, **kwargs):
-            yield msg.get_body()
+            yield msg
 
 if __name__ == '__main__':
     import json
