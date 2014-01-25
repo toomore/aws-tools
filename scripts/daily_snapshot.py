@@ -17,11 +17,10 @@ print SNAP_ID
 #print AwsEC2Tools().register_image(SNAP_ID[0].id, '/dev/sda1', True)
 
 # Register image
-AMIOK_LOOP = True
-while AMIOK_LOOP:
+while True:
     try:
         print AwsEC2Tools().register_image(SNAP_ID[0].id, '/dev/sda1', True)
-        AMIOK_LOOP = False
+        break
     except EC2ResponseError:
         print '%s: %s is not completed' % (datetime.now(), SNAP_ID[0].id)
         print 'Waitting 10 seconds ...'
