@@ -19,6 +19,7 @@ My AWS Tools
    AwsS3Tools <awss3tools>
    AwsSQSTools <awssqstools>
    Some scripts <scripttools>
+   Setting <setting-aws>
 
 What Tools
 ============
