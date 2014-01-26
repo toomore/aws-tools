@@ -281,5 +281,6 @@ pdf_documents = [
     ]
 pdf_stylesheets = ['sphinx', 'kerning', 'a4']
 pdf_style_path = ['.', '_styles']
+pdf_toc_depth = 9999
 pdf_use_numbered_links = False
 pdf_fit_background_mode = 'scale'
