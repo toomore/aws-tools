@@ -25,7 +25,10 @@ class AwsSESTools(object):
         return '"%s" <%s>' % (Header(name, 'utf-8'), mail)
 
     def send_email(self, *args, **kwargs):
-        ''' Send email '''
+        ''' Send email
+
+            seealso `send_email` in :class:`boto.ses.connection.SESConnection`
+        '''
         return self.conn.send_email(*args, **kwargs)
 
 if __name__ == '__main__':
