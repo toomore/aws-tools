@@ -9,6 +9,12 @@ monkey.patch_all()
 
 
 def gevent_pool(func, spawn_list, pool_size=5):
+    ''' gevent_pool
+
+        :param object func: main run function
+        :param list spawn_list: a list of :func:`midfunc`
+        :param int pool_size: gevent pool concurrency
+    '''
     pool = Pool(pool_size)
     gevent_spawn_list = []
 
@@ -19,6 +25,11 @@ def gevent_pool(func, spawn_list, pool_size=5):
     return gevent_spawn_list
 
 def midfunc(*args, **kwargs):
+    ''' midfunc
+
+        :rtype: tuple
+        :returns: (args, kwargs)
+    '''
     return args, kwargs
 
 if __name__ == '__main__':
