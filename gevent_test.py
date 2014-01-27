@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import gevent
-from gevent import monkey
-from gevent.pool import Pool
-monkey.patch_all()
-
 import urllib2
 from datetime import datetime
+from gevent.pool import Pool
+
+from gevent import monkey
+monkey.patch_all()
 
 
 def gevent_pool(func, spawn_list, pool_size=5):
