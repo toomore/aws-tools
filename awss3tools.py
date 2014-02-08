@@ -14,6 +14,10 @@ class AwsS3Tools(object):
 
         :param str bucket: s3 bucket Name
         :param str open_file: filename, the same with s3 object key name.
+        :param bool validate: validate bucket is exist or not. Default is
+                              ``False`` for not to call ``get_all_keys``.
+        .. seealso:: ``validate`` in ``get_bucket`` in
+                     :class:`boto.s3.connection.S3Connection`
         :rtype: :class:`boto.s3.connection.S3Connection`
         :return: :class:`boto.s3.connection.S3Connection`
 
@@ -28,9 +32,9 @@ class AwsS3Tools(object):
         >>> FILES = AwsS3Tools('toomore-aet')
         >>> FILES.open('toomore.txt')
     '''
-    def __init__(self, bucket, open_file=None):
+    def __init__(self, bucket, open_file=None, validate=False):
         self.conn = S3Connection(setting.ID, setting.KEY)
-        self.bucket = self.conn.get_bucket(bucket)
+        self.bucket = self.conn.get_bucket(bucket, validate=validate)
         if open_file:
             self.open(open_file)
         else:
