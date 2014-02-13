@@ -19,3 +19,5 @@ class AwsCloudFrontTools(object):
 if __name__ == '__main__':
     cloudfront = AwsCloudFrontTools()
     print cloudfront.get_all_distributions()
+    #print cloudfront.conn.create_invalidation_request('...',
+    #                                                  ['index.html',])
