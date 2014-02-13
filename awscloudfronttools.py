@@ -8,10 +8,11 @@ class AwsCloudFrontTools(object):
         self.conn = CloudFrontConnection(aws_access_key_id=setting.ID,
                                          aws_secret_access_key=setting.KEY)
 
-    def get_all_distributions(self):
+    def get_all_distributions(self, fields=['id', 'cnames', 'domain_name',
+            'origin']):
         result = []
         for target in self.conn.get_all_distributions():
-            result.append({key: getattr(target, key) for key in ['id', 'cnames', 'domain_name', 'origin']})
+            result.append({key: getattr(target, key) for key in fields})
 
         return result
 
