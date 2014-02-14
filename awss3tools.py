@@ -16,8 +16,10 @@ class AwsS3Tools(object):
         :param str open_file: filename, the same with s3 object key name.
         :param bool validate: validate bucket is exist or not. Default is
                               ``False`` for not to call ``get_all_keys``.
+
         .. seealso:: ``validate`` in ``get_bucket`` in
                      :class:`boto.s3.connection.S3Connection`
+
         :rtype: :class:`boto.s3.connection.S3Connection`
         :return: :class:`boto.s3.connection.S3Connection`
 

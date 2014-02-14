@@ -18,6 +18,7 @@ My AWS Tools
    AwsSESTools <awssestools>
    AwsS3Tools <awss3tools>
    AwsSQSTools <awssqstools>
+   AwsCloudFrontTools <awscloudfronttools>
    geventTools <geventtools>
    Some scripts <scripttools>
    Setting <setting-aws>

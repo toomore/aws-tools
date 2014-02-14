@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+''' AWS CloudFront Tools '''
 import setting
 from boto.cloudfront import CloudFrontConnection
 
@@ -10,6 +11,11 @@ class AwsCloudFrontTools(object):
 
     def get_all_distributions(self, fields=['id', 'cnames', 'domain_name',
             'origin']):
+        ''' Get all distributions
+
+            :param list fields: Get distributions info fields.
+            :rtype: dict in list
+        '''
         result = []
         for target in self.conn.get_all_distributions():
             result.append({key: getattr(target, key) for key in fields})
