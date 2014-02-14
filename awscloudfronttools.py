@@ -4,6 +4,7 @@ import setting
 from boto.cloudfront import CloudFrontConnection
 
 class AwsCloudFrontTools(object):
+    ''' Aws CloudFront Tools '''
 
     def __init__(self):
         self.conn = CloudFrontConnection(aws_access_key_id=setting.ID,
