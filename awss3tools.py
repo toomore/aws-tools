@@ -33,6 +33,10 @@ class AwsS3Tools(object):
 
         >>> FILES = AwsS3Tools('toomore-aet')
         >>> FILES.open('toomore.txt')
+
+        .. todo::
+           - Move setting out of class.
+
     '''
     def __init__(self, bucket, open_file=None, validate=False):
         self.conn = S3Connection(setting.ID, setting.KEY)
