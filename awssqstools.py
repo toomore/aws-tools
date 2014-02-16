@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 ''' AwsSQSTools '''
-import setting
 from base64 import b64encode
 from boto.sqs import connect_to_region
 
@@ -10,10 +9,11 @@ class AwsSQSTools(object):
 
         :param str queue_name: AWS SQS queue name.
     '''
-    def __init__(self, queue_name):
-        self.conn = connect_to_region(setting.REGION,
-                                      aws_access_key_id=setting.ID,
-                                      aws_secret_access_key=setting.KEY)
+    def __init__(self, aws_access_key_id, aws_secret_access_key, region,
+            queue_name):
+        self.conn = connect_to_region(region,
+                                    aws_access_key_id=aws_access_key_id,
+                                    aws_secret_access_key=aws_secret_access_key)
         self.queue = self.conn.create_queue(queue_name)
 
     def get_all_queues(self, *args, **kwargs):
@@ -66,28 +66,29 @@ class AwsSQSTools(object):
             yield msg
 
 if __name__ == '__main__':
-    import json
-    from datetime import datetime
+    #import json
+    #import setting
+    #from datetime import datetime
 
-    SQS = AwsSQSTools('test_toomore')
+    #SQS = AwsSQSTools(setting.ID, setting.KEY, setting.REGION, 'test_toomore')
     #print SQS.queue
     #print SQS.get_all_queues('test_')
     #print dir(SQS.queue)
     #print [SQS.write(str(i)) for i in xrange(10)]
 
     # ----- test write / write_batch ----- #
-    print SQS.queue.clear()
-    t1 = datetime.now()
-    print [SQS.write(json.dumps(i)) for i in [dict(name=u'國'),]*23]
-    t2 = datetime.now()
-    print SQS.write_batch([json.dumps(i) for i in [dict(name=u'國'),]*23])
-    t3 = datetime.now()
-    print t2 - t1, t3 - t2
+    #print SQS.queue.clear()
+    #t1 = datetime.now()
+    #print [SQS.write(json.dumps(i)) for i in [dict(name=u'國'),]*23]
+    #t2 = datetime.now()
+    #print SQS.write_batch([json.dumps(i) for i in [dict(name=u'國'),]*23])
+    #t3 = datetime.now()
+    #print t2 - t1, t3 - t2
 
     # ----- test get_messages ----- #
-    t1 = datetime.now()
-    print list(SQS.get_messages())
-    t2 = datetime.now()
-    print list(SQS.get_messages())
-    t3 = datetime.now()
-    print t2 - t1, t3 - t2
+    #t1 = datetime.now()
+    #print list(SQS.get_messages())
+    #t2 = datetime.now()
+    #print list(SQS.get_messages())
+    #t3 = datetime.now()
+    #print t2 - t1, t3 - t2
