@@ -5,13 +5,13 @@ from email.header import Header
 
 
 class AwsSESTools(object):
-    ''' AWS SES tools '''
-    def __init__(self, aws_access_key_id, aws_secret_access_key):
-        ''' Make a connect
+    ''' AWS SES tools
 
-            :param aws_access_key_id str: aws_access_key_id
-            :param aws_secret_access_key str: aws_secret_access_key
-        '''
+        :param str aws_access_key_id: aws_access_key_id
+        :param str aws_secret_access_key: aws_secret_access_key
+    '''
+    def __init__(self, aws_access_key_id, aws_secret_access_key):
+        ''' Make a connect '''
         self.conn = ses.connection.SESConnection(
                                     aws_access_key_id=aws_access_key_id,
                                     aws_secret_access_key=aws_secret_access_key)
