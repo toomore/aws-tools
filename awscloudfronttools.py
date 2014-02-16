@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 ''' AWS CloudFront Tools '''
-import setting
 from boto.cloudfront import CloudFrontConnection
 
 class AwsCloudFrontTools(object):
     ''' Aws CloudFront Tools '''
 
-    def __init__(self):
-        self.conn = CloudFrontConnection(aws_access_key_id=setting.ID,
-                                         aws_secret_access_key=setting.KEY)
+    def __init__(self, aws_access_key_id, aws_secret_access_key):
+        self.conn = CloudFrontConnection(aws_access_key_id=aws_access_key_id,
+                        aws_secret_access_key=aws_secret_access_key)
 
     def get_all_distributions(self, fields=['id', 'cnames', 'domain_name',
             'origin']):
@@ -25,7 +24,8 @@ class AwsCloudFrontTools(object):
 
 if __name__ == '__main__':
     from pprint import pprint
-    cloudfront = AwsCloudFrontTools()
+    import setting
+    cloudfront = AwsCloudFrontTools(setting.ID, setting.KEY)
     pprint(cloudfront.get_all_distributions())
     #print cloudfront.conn.create_invalidation_request('...',
     #                                                  ['index.html',])
