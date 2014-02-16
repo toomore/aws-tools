@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 ''' My AWS Tools '''
-import setting
 import urllib2
 from boto import ec2
 from boto.ec2.blockdevicemapping import BlockDeviceMapping
@@ -13,11 +12,11 @@ from datetime import datetime
 class AwsEC2Tools(object):
     ''' AWS tools '''
 
-    def __init__(self):
+    def __init__(self, region, aws_access_key_id, aws_secret_access_key):
         ''' Make a connect '''
-        self.conn = ec2.connect_to_region(setting.REGION,
-                                     aws_access_key_id=setting.ID,
-                                     aws_secret_access_key=setting.KEY)
+        self.conn = ec2.connect_to_region(region,
+                                    aws_access_key_id=aws_access_key_id,
+                                    aws_secret_access_key=aws_secret_access_key)
 
     def get_all_instances(self):
         ''' Get all on running instances
@@ -170,16 +169,19 @@ class AwsEC2MetaData(object):
 if __name__ == '__main__':
     print 'remove comment before use'
     # ----- AwsEC2Tools ----- #
-    #AwsEC2Tools().create_snapshot()
-    #AwsEC2Tools().create_snapshot(['i-3aa6a538',])
-    #print AwsEC2Tools().register_image('snap-b2464c5d', '/dev/sda1', True)
-    #print AwsEC2Tools().run_from_image('ami-73fa9972')
-    #print AwsEC2Tools().conn.create_tags('i-ebcd6aee', {'Name': 'From boto'})
-    #for i in AwsEC2Tools().get_spot_price_history():
+    #import setting
+    #EC2 = AwsEC2Tools(setting.REGION, setting.ID, setting.KEY)
+    #print EC2.get_all_instances()
+    #EC2.create_snapshot()
+    #EC2.create_snapshot(['i-3aa6a538',])
+    #print EC2.register_image('snap-b2464c5d', '/dev/sda1', True)
+    #print EC2.run_from_image('ami-73fa9972')
+    #print EC2.conn.create_tags('i-ebcd6aee', {'Name': 'From boto'})
+    #for i in EC2.get_spot_price_history():
     #    print i.region, i.availability_zone, i.timestamp, i.price
-    #print AwsEC2Tools().run_spot_instances_from_image('ami-73fa9972', '0.007')
-    #print AwsEC2Tools().conn.terminate_instances('i-ae776dac')
-    #print AwsEC2Tools().conn.cancel_spot_instance_requests('sir-6c9b0c5b')
+    #print EC2.run_spot_instances_from_image('ami-73fa9972', '0.007')
+    #print EC2.conn.terminate_instances('i-ae776dac')
+    #print EC2.conn.cancel_spot_instance_requests('sir-6c9b0c5b')
 
     # ----- AwsEC2MetaData ----- #
     #print AwsEC2MetaData().get('instance-id')
