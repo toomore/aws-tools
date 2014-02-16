@@ -3,7 +3,11 @@
 from boto.cloudfront import CloudFrontConnection
 
 class AwsCloudFrontTools(object):
-    ''' Aws CloudFront Tools '''
+    ''' Aws CloudFront Tools
+
+        :param str aws_access_key_id: aws_access_key_id
+        :param str aws_secret_access_key: aws_secret_access_key
+    '''
 
     def __init__(self, aws_access_key_id, aws_secret_access_key):
         self.conn = CloudFrontConnection(aws_access_key_id=aws_access_key_id,
