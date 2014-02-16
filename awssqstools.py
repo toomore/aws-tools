@@ -7,6 +7,9 @@ from boto.sqs import connect_to_region
 class AwsSQSTools(object):
     ''' AwsSQSTools
 
+        :param str aws_access_key_id: aws_access_key_id
+        :param str aws_secret_access_key: aws_secret_access_key
+        :param str region: region.
         :param str queue_name: AWS SQS queue name.
     '''
     def __init__(self, aws_access_key_id, aws_secret_access_key, region,
@@ -17,7 +20,11 @@ class AwsSQSTools(object):
         self.queue = self.conn.create_queue(queue_name)
 
     def get_all_queues(self, *args, **kwargs):
-        ''' Get all queue '''
+        ''' Get all queue
+
+            :rtype: list
+            :returns: A list of :class:`boto.sqs.queue.Queue` instances.
+        '''
         return self.conn.get_all_queues(*args, **kwargs)
 
     def write(self, body):
@@ -55,7 +62,7 @@ class AwsSQSTools(object):
 
             :param int num_messages: get message in one time.
             :rtype: list
-            :returns: A list of :class:`boto.sqs.message.Message` objects
+            :returns: A list of :class:`boto.sqs.message.Message` instances
 
             .. todo::
                - Need to increase `get_messages` concurrency.
@@ -66,6 +73,7 @@ class AwsSQSTools(object):
             yield msg
 
 if __name__ == '__main__':
+    print 'remove comment before use'
     #import json
     #import setting
     #from datetime import datetime
