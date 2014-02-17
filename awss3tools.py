@@ -2,7 +2,6 @@
 '''
 Files create, update, read, delete through AWS S3.
 '''
-import setting
 from boto.s3.connection import S3Connection
 from cStringIO import InputType
 from cStringIO import OutputType
@@ -38,8 +37,8 @@ class AwsS3Tools(object):
            - Move setting out of class.
 
     '''
-    def __init__(self, bucket, open_file=None, validate=False):
-        self.conn = S3Connection(setting.ID, setting.KEY)
+    def __init__(self, bucket, aws_access_key_id, aws_secret_access_key, open_file=None, validate=False):
+        self.conn = S3Connection(aws_access_key_id, aws_secret_access_key)
         self.bucket = self.conn.get_bucket(bucket, validate=validate)
         if open_file:
             self.open(open_file)
@@ -124,17 +123,18 @@ class AwsS3Tools(object):
         return self.keys.delete()
 
 if __name__ == '__main__':
-    #bucket = AwsS3Tools('toomore-aet').bucket
+    import setting
+    #bucket = AwsS3Tools('toomore-aet', setting.ID, setting.KEY).bucket
     #print bucket.get_all_keys()
     #print dir(bucket)
 
     # ----- create data 1 ----- #
-    #FILES = AwsS3Tools('toomore-aet', 'toomore.txt')
+    #FILES = AwsS3Tools('toomore-aet', setting.ID, setting.KEY, 'toomore.txt')
     #print FILES
     #print dir(FILES)
 
     # ----- create data 2 ----- #
-    FILES = AwsS3Tools('toomore-aet')
+    FILES = AwsS3Tools('toomore-aet', setting.ID, setting.KEY)
     FILES.open('toomore.txt')
 
     # ----- save data ----- #
