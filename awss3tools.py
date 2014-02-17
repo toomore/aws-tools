@@ -12,6 +12,8 @@ class AwsS3Tools(object):
     ''' AwsS3Tools
 
         :param str bucket: s3 bucket Name
+        :param str aws_access_key_id: aws_access_key_id
+        :param str aws_secret_access_key: aws_secret_access_key
         :param str open_file: filename, the same with s3 object key name.
         :param bool validate: validate bucket is exist or not. Default is
                               ``False`` for not to call ``get_all_keys``.
@@ -24,17 +26,14 @@ class AwsS3Tools(object):
 
         Connect bucket with filename:
 
-        >>> FILES = AwsS3Tools('toomore-aet', 'toomore.txt')
+        >>> FILES = AwsS3Tools('toomore-aet', AWSID, AWSKEY, 'toomore.txt')
         >>> print FILES
 
         Connect bucket without filename but using
         :py:func:`open`:
 
-        >>> FILES = AwsS3Tools('toomore-aet')
+        >>> FILES = AwsS3Tools('toomore-aet', AWSID, AWSKEY)
         >>> FILES.open('toomore.txt')
-
-        .. todo::
-           - Move setting out of class.
 
     '''
     def __init__(self, bucket, aws_access_key_id, aws_secret_access_key, open_file=None, validate=False):
