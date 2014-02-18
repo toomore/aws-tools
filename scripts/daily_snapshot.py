@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+import os
 import sys
-sys.path.insert(0, '../')
+path = os.path.join('/', *os.path.abspath(__file__).split('/')[:-2])
+sys.path.insert(0, path)
 
 import setting
 import time
@@ -12,18 +14,18 @@ from datetime import datetime
 
 # Deploy to an instance and using cron.
 INSTANCE_ID = AwsEC2MetaData().get('instance-id')
+print 'Instance ID: %s' % INSTANCE_ID
 EC2 = AwsEC2Tools(setting.REGION, setting.ID, setting.KEY)
 SNAP_ID = EC2.create_snapshot([INSTANCE_ID, ])
-print SNAP_ID
-#time.sleep(10)
-#print EC2.register_image(SNAP_ID[0].id, '/dev/sda1', True)
+print 'Snapshot ID: %s' % SNAP_ID
 
 # Register image
 while True:
     try:
-        print EC2.register_image(SNAP_ID[0].id, '/dev/sda1', True)
+        print 'AMI ID: %s' % EC2.register_image(SNAP_ID[0].id,
+                '/dev/sda1', True)
         break
     except EC2ResponseError:
-        print '%s: %s is not completed' % (datetime.now(), SNAP_ID[0].id)
+        print '<%s> `%s` is not completed' % (datetime.now(), SNAP_ID[0].id)
         print 'Waitting 10 seconds ...'
         time.sleep(10)
