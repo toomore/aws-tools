@@ -9,6 +9,10 @@ class AwsSESTools(object):
 
         :param str aws_access_key_id: aws_access_key_id
         :param str aws_secret_access_key: aws_secret_access_key
+
+        .. todo::
+           - Add integrated with jinja2 template.
+
     '''
     def __init__(self, aws_access_key_id, aws_secret_access_key):
         ''' Make a connect '''
