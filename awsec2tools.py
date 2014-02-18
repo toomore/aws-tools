@@ -71,6 +71,10 @@ class AwsEC2Tools(object):
             :param bool delete_on_termination: delete on termination
             :rtype: string
             :returns: The new image id
+
+            .. todo::
+               - Remove `kernel_id` hard code.
+
         '''
 
         # To make delete_on_termination, need to create a block_device_map
@@ -96,6 +100,10 @@ class AwsEC2Tools(object):
             :rtype: :class:`boto.ec2.instance.Reservation`
             :returns: The :class:`boto.ec2.instance.Reservation` associated with
                       the request for machines
+
+            .. todo::
+               - Remove `subnet_id`, `security_group_ids` hard code.
+
         '''
         image = self.conn.get_image(image_id)
         image.run(instance_type='t1.micro', security_group_ids=['sg-16d2d974',],
@@ -111,6 +119,10 @@ class AwsEC2Tools(object):
             :rtype: :class:`boto.ec2.spotinstancerequest.SpotInstanceRequest`
             :returns: The :class:`boto.ec2.spotinstancerequest.SpotInstanceRequest`
                       associated with the request for machines.
+
+            .. todo::
+               - Remove `network_interfaces` hard code and using setting.
+
         '''
         network_interfaces = NetworkInterfaceSpecification(
                                 subnet_id='subnet-4e8fda08',
@@ -133,6 +145,10 @@ class AwsEC2Tools(object):
 
             :rtype: list
             :returns: A list tuples containing price and timestamp.
+
+            .. todo::
+               - Remove `availability_zone`, `instance_type` hard code.
+
         '''
         return self.conn.get_spot_price_history(
                         instance_type='t1.micro',
