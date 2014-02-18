@@ -2,6 +2,7 @@
 ''' AWS CloudFront Tools '''
 from boto.cloudfront import CloudFrontConnection
 
+
 class AwsCloudFrontTools(object):
     ''' Aws CloudFront Tools
 
@@ -19,6 +20,10 @@ class AwsCloudFrontTools(object):
 
             :param list fields: Get distributions info fields.
             :rtype: dict in list
+
+            .. todo::
+               - Add show all distributions data.
+
         '''
         result = []
         for target in self.conn.get_all_distributions():
@@ -27,8 +32,8 @@ class AwsCloudFrontTools(object):
         return result
 
 if __name__ == '__main__':
-    from pprint import pprint
     import setting
+    from pprint import pprint
     cloudfront = AwsCloudFrontTools(setting.ID, setting.KEY)
     pprint(cloudfront.get_all_distributions())
     #print cloudfront.conn.create_invalidation_request('...',
