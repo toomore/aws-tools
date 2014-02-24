@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 ''' My AWS Tools '''
-from boto import ses
+from boto.ses.connection import SESConnection
 from email.header import Header
 
 
-class AwsSESTools(object):
+class AwsSESTools(SESConnection):
     ''' AWS SES tools
 
         :param str aws_access_key_id: aws_access_key_id
@@ -16,9 +16,8 @@ class AwsSESTools(object):
     '''
     def __init__(self, aws_access_key_id, aws_secret_access_key):
         ''' Make a connect '''
-        self.conn = ses.connection.SESConnection(
-                                    aws_access_key_id=aws_access_key_id,
-                                    aws_secret_access_key=aws_secret_access_key)
+        super(AwsSESTools, self).__init__(aws_access_key_id,
+                                          aws_secret_access_key)
 
     @staticmethod
     def mail_header(name, mail):
@@ -36,7 +35,7 @@ class AwsSESTools(object):
 
             seealso `send_email` in :class:`boto.ses.connection.SESConnection`
         '''
-        return self.conn.send_email(*args, **kwargs)
+        return super(AwsSESTools, self).send_email(*args, **kwargs)
 
 if __name__ == '__main__':
     print 'remove comment before use'
