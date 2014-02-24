@@ -8,7 +8,7 @@ from cStringIO import OutputType
 from cStringIO import StringIO
 
 
-class AwsS3Tools(object):
+class AwsS3Tools(S3Connection):
     ''' AwsS3Tools
 
         :param str bucket: s3 bucket Name
@@ -37,8 +37,9 @@ class AwsS3Tools(object):
 
     '''
     def __init__(self, bucket, aws_access_key_id, aws_secret_access_key, open_file=None, validate=False):
-        self.conn = S3Connection(aws_access_key_id, aws_secret_access_key)
-        self.bucket = self.conn.get_bucket(bucket, validate=validate)
+        super(AwsS3Tools, self).__init__(aws_access_key_id,
+                aws_secret_access_key)
+        self.bucket = self.get_bucket(bucket, validate=validate)
         if open_file:
             self.open(open_file)
         else:
@@ -137,12 +138,12 @@ if __name__ == '__main__':
     FILES.open('toomore.txt')
 
     # ----- save data ----- #
-    content = StringIO()
-    content.write('Toomore is 蔣太多')
-    print FILES.save(content.getvalue(), True)
+    #content = StringIO()
+    #content.write('Toomore is 蔣太多')
+    #print FILES.save(content.getvalue(), True)
 
     # ----- save files ----- #
-    #with open('./README.md') as file_data:
+    #with open('./README.rst') as file_data:
     #    print FILES.save(file_data, True)
 
     # ----- read files ----- #
@@ -164,4 +165,4 @@ if __name__ == '__main__':
     #print FILES.delete()
 
     # ----- generate url ----- #
-    #print FILES.generate_url(30)
+    #print FILES.keys.generate_url(30)
