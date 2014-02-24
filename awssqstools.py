@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 ''' AwsSQSTools '''
 from base64 import b64encode
-from boto.sqs import connect_to_region
+from boto.sqs import regions
+from boto.sqs.connection import SQSConnection
 
 
-class AwsSQSTools(object):
+class AwsSQSTools(SQSConnection):
     ''' AwsSQSTools
 
         :param str aws_access_key_id: aws_access_key_id
@@ -14,10 +15,10 @@ class AwsSQSTools(object):
     '''
     def __init__(self, aws_access_key_id, aws_secret_access_key, region,
             queue_name):
-        self.conn = connect_to_region(region,
-                                    aws_access_key_id=aws_access_key_id,
-                                    aws_secret_access_key=aws_secret_access_key)
-        self.queue = self.conn.create_queue(queue_name)
+        super(AwsSQSTools, self).__init__(aws_access_key_id,
+                aws_secret_access_key,
+                region=[i for i in regions() if i.name == region][0])
+        self.queue = self.create_queue(queue_name)
 
     def get_all_queues(self, *args, **kwargs):
         ''' Get all queue
@@ -25,7 +26,7 @@ class AwsSQSTools(object):
             :rtype: list
             :returns: A list of :class:`boto.sqs.queue.Queue` instances.
         '''
-        return self.conn.get_all_queues(*args, **kwargs)
+        return super(AwsSQSTools, self).get_all_queues(*args, **kwargs)
 
     def write(self, body):
         ''' Write a message into queue
