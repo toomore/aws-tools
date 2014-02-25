@@ -1,22 +1,23 @@
 # -*- coding: utf-8 -*-
 ''' My AWS Tools '''
 import urllib2
-from boto import ec2
+from boto.ec2 import regions
 from boto.ec2.blockdevicemapping import BlockDeviceMapping
 from boto.ec2.blockdevicemapping import BlockDeviceType
+from boto.ec2.connection import EC2Connection
 from boto.ec2.networkinterface import NetworkInterfaceCollection
 from boto.ec2.networkinterface import NetworkInterfaceSpecification
 from datetime import datetime
 
 
-class AwsEC2Tools(object):
+class AwsEC2Tools(EC2Connection):
     ''' AWS tools '''
 
     def __init__(self, region, aws_access_key_id, aws_secret_access_key):
         ''' Make a connect '''
-        self.conn = ec2.connect_to_region(region,
-                                    aws_access_key_id=aws_access_key_id,
-                                    aws_secret_access_key=aws_secret_access_key)
+        super(AwsEC2Tools, self).__init__(aws_access_key_id,
+                aws_secret_access_key,
+                region=[i for i in regions() if i.name == region][0])
 
     def get_all_instances(self):
         ''' Get all on running instances
@@ -25,7 +26,7 @@ class AwsEC2Tools(object):
             :returns: A list of :class:`boto.ec2.instance.Reservation`
         '''
 
-        return self.conn.get_all_instances(filters={'instance-state-code': 16})
+        return super(AwsEC2Tools, self).get_all_instances(filters={'instance-state-code': 16})
 
     def create_snapshot(self, instances_id=None, dry_run=False):
         '''Create a snapshot with running instances
@@ -105,7 +106,7 @@ class AwsEC2Tools(object):
                - Remove `subnet_id`, `security_group_ids` hard code.
 
         '''
-        image = self.conn.get_image(image_id)
+        image = self.get_image(image_id)
         image.run(instance_type='t1.micro', security_group_ids=['sg-16d2d974',],
                   subnet_id='subnet-4e8fda08', #VPC
                   instance_initiated_shutdown_behavior='terminate')
@@ -133,7 +134,7 @@ class AwsEC2Tools(object):
 
         network_interfaces = NetworkInterfaceCollection(network_interfaces)
 
-        return self.conn.request_spot_instances(price=str(price),
+        return self.request_spot_instances(price=str(price),
                                          image_id=image_id,
                                          count=1,
                                          instance_type='t1.micro',
@@ -150,7 +151,7 @@ class AwsEC2Tools(object):
                - Remove `availability_zone`, `instance_type` hard code.
 
         '''
-        return self.conn.get_spot_price_history(
+        return super(AwsEC2Tools, self).get_spot_price_history(
                         instance_type='t1.micro',
                         product_description='Linux/UNIX (Amazon VPC)',
                         availability_zone='ap-northeast-1c',
@@ -192,12 +193,12 @@ if __name__ == '__main__':
     #EC2.create_snapshot(['i-3aa6a538',])
     #print EC2.register_image('snap-b2464c5d', '/dev/sda1', True)
     #print EC2.run_from_image('ami-73fa9972')
-    #print EC2.conn.create_tags('i-ebcd6aee', {'Name': 'From boto'})
+    #print EC2.create_tags('i-ebcd6aee', {'Name': 'From boto'})
     #for i in EC2.get_spot_price_history():
     #    print i.region, i.availability_zone, i.timestamp, i.price
     #print EC2.run_spot_instances_from_image('ami-73fa9972', '0.007')
-    #print EC2.conn.terminate_instances('i-ae776dac')
-    #print EC2.conn.cancel_spot_instance_requests('sir-6c9b0c5b')
+    #print EC2.terminate_instances('i-ae776dac')
+    #print EC2.cancel_spot_instance_requests('sir-6c9b0c5b')
 
     # ----- AwsEC2MetaData ----- #
     #print AwsEC2MetaData().get('instance-id')
