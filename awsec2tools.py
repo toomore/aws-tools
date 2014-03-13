@@ -28,7 +28,7 @@ class AwsEC2Tools(EC2Connection):
 
         return super(AwsEC2Tools, self).get_all_instances(filters={'instance-state-code': 16})
 
-    def create_snapshot(self, instances_id=None, dry_run=False):
+    def create_snapshots(self, instances_id=None, dry_run=False):
         '''Create a snapshot with running instances
 
            :param str instances_id: instances id.
@@ -48,16 +48,16 @@ class AwsEC2Tools(EC2Connection):
 
         result_snap = []
         for i in instances_id:
-            volumes = self.conn.get_all_volumes(filters={
+            volumes = self.get_all_volumes(filters={
                     'attachment.instance-id': i})
-            print 'volume', volumes
 
             for volume in volumes:
                 now = datetime.now()
-                snap = volume.create_snapshot('%s %s' % (i, now), dry_run)
+                snap = volume.create_snapshot(description='%s %s' % (i, now),
+                        dry_run=dry_run)
                 result_snap.append(snap)
                 print 'create_snapshot', snap
-                print 'Add tag', self.conn.create_tags(snap.id,
+                print 'Add tag', self.create_tags(snap.id,
                         {'Name': 'AUTO-%02d%02d-%s' % (now.month, now.day, i),
                          'CreatedBy': 'boto'}, dry_run)
 
@@ -85,14 +85,13 @@ class AwsEC2Tools(EC2Connection):
         block_device_map[root_device_name] = root_vol
 
         now = datetime.now()
-        return self.conn.register_image(name='AMI-%02d%02d' % (now.month,
-                                                               now.day),
-                                        description='AMI-%02d%02d' % (now.month,
-                                                                      now.day),
-                                        architecture='x86_64',
-                                        kernel_id='aki-176bf516',
-                                        root_device_name=root_device_name,
-                                        block_device_map=block_device_map)
+        return super(AwsEC2Tools, self).register_image(
+                name='AMI-%02d%02d' % (now.month, now.day),
+                description='AMI-%02d%02d' % (now.month, now.day),
+                architecture='x86_64',
+                kernel_id='aki-176bf516',
+                root_device_name=root_device_name,
+                block_device_map=block_device_map)
 
     def run_from_image(self, image_id):
         ''' Create instance from image in VPC

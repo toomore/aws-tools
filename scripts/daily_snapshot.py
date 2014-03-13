@@ -16,7 +16,7 @@ from datetime import datetime
 INSTANCE_ID = AwsEC2MetaData().get('instance-id')
 print 'Instance ID: %s' % INSTANCE_ID
 EC2 = AwsEC2Tools(setting.REGION, setting.ID, setting.KEY)
-SNAP_ID = EC2.create_snapshot([INSTANCE_ID, ])
+SNAP_ID = EC2.create_snapshots([INSTANCE_ID, ])
 print 'Snapshot ID: %s' % SNAP_ID
 
 # Register image
