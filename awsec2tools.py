@@ -86,8 +86,9 @@ class AwsEC2Tools(EC2Connection):
 
         now = datetime.now()
         return super(AwsEC2Tools, self).register_image(
-                name='AMI-%02d%02d' % (now.month, now.day),
-                description='AMI-%02d%02d' % (now.month, now.day),
+                name='AMI-%02d%02d-%s' % (now.month, now.day, snapshot_id),
+                description='AMI-%02d%02d-%s' % (now.month, now.day,
+                    snapshot_id),
                 architecture='x86_64',
                 kernel_id='aki-176bf516',
                 root_device_name=root_device_name,
