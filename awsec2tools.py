@@ -158,29 +158,33 @@ class AwsEC2Tools(EC2Connection):
                         max_results='20')
 
 class AwsEC2MetaData(object):
-    ''' Show EC2 user/meta data '''
+    ''' Show EC2 user/meta data
+        http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AESDG-chapter-instancedata.html
+    '''
     METADATAURL = 'http://169.254.169.254/latest/meta-data'
 
     def __init__(self):
         pass
 
-    def get(self, data=''):
+    @classmethod
+    def get(cls, data=''):
         ''' get meta-data info
 
             :param str data: data name.
             :rtype: str
             :returns: instance data.
         '''
-        result = urllib2.urlopen('%s/%s' % (self.METADATAURL, data))
+        result = urllib2.urlopen('%s/%s' % (cls.METADATAURL, data))
         return result.read()
 
-    def keys(self):
+    @classmethod
+    def keys(cls):
         ''' Show all meta data keys
 
             :rtype: str
             :returns: all meta data key name.
         '''
-        result = self.get().split('\n')
+        result = cls.get().split('\n')
         return result
 
 if __name__ == '__main__':
@@ -201,7 +205,7 @@ if __name__ == '__main__':
     #print EC2.cancel_spot_instance_requests('sir-6c9b0c5b')
 
     # ----- AwsEC2MetaData ----- #
-    #print AwsEC2MetaData().get('instance-id')
-    #print AwsEC2MetaData().keys()
-    #for i in AwsEC2MetaData().keys():
-    #    print i, AwsEC2MetaData().get(i)
+    #print AwsEC2MetaData.get('instance-id')
+    #print AwsEC2MetaData.keys()
+    #for i in AwsEC2MetaData.keys():
+    #    print i, AwsEC2MetaData.get(i)
