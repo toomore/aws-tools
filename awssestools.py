@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 ''' My AWS Tools '''
 from boto.ses.connection import SESConnection
+from email import encoders
 from email.header import Header
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
@@ -39,12 +42,21 @@ class AwsSESTools(SESConnection):
         return super(AwsSESTools, self).send_email(*args, **kwargs)
 
     def send_raw_email(self, **kwargs):
-        msg = MIMEText("""123國<br><a href="http://toomore.net/">link</a>""", 'html', 'utf-8')
-        msg['Subject'] = kwargs['subject']
-        msg['From'] = kwargs['source']
-        msg['To'] = kwargs['to_addresses']
+        msg_all = MIMEMultipart()
+        msg_all['From'] = kwargs['source']
+        msg_all['To'] = kwargs['to_addresses']
+        msg_all['Subject'] = kwargs['subject']
 
-        return super(AwsSESTools, self).send_raw_email(msg.as_string(), kwargs['source'])
+        msg_all.attach(MIMEText("""123國<br><a href="http://toomore.net/">link</a>""", 'html', 'utf-8'))
+
+        attachment = MIMEBase('html', 'text')
+        attachment.set_payload("name,value\ntoomore,123國")
+        encoders.encode_base64(attachment)
+        attachment.add_header('Content-Disposition', 'attachment; filename="%s"' % "test.txt")
+
+        msg_all.attach(attachment)
+
+        return super(AwsSESTools, self).send_raw_email(msg_all.as_string(), kwargs['source'])
 
 if __name__ == '__main__':
     print 'remove comment before use'
