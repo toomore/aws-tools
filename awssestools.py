@@ -43,6 +43,7 @@ class AwsSESTools(SESConnection):
         return super(AwsSESTools, self).send_email(*args, **kwargs)
 
     def send_raw_email(self, **kwargs):
+        ''' still in dev '''
         msg_all = MIMEMultipart()
         msg_all['From'] = kwargs['source']
         msg_all['To'] = kwargs['to_addresses']
