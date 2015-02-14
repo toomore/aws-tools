@@ -6,6 +6,7 @@ from email.header import Header
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from utils import render_ics
 
 
 class AwsSESTools(SESConnection):
@@ -49,10 +50,21 @@ class AwsSESTools(SESConnection):
 
         msg_all.attach(MIMEText("""123國<br><a href="http://toomore.net/">link</a>""", 'html', 'utf-8'))
 
-        attachment = MIMEBase('html', 'text')
-        attachment.set_payload("name,value\ntoomore,123國")
+        ics = render_ics(
+            title=u'吃火鍋',
+            description=u'冬天到了要吃火鍋！',
+            location=u'台北市中正區衡陽路51號',
+            start=datetime(2015, 1, 29, 10),
+            end=datetime(2015, 1, 29, 18, 30),
+            created=None,
+            admin=u'Toomore',
+            admin_mail=u'toomore0929@gmail.com',
+            url=u'http://toomore.net/'
+        )
+        attachment = MIMEBase('text', 'calendar; name=calendar.ics; method=REQUEST; charset=UTF-8')
+        attachment.set_payload(ics.encode('utf-8'))
         encoders.encode_base64(attachment)
-        attachment.add_header('Content-Disposition', 'attachment; filename="%s"' % "test.txt")
+        attachment.add_header('Content-Disposition', 'attachment; filename=%s' % "calendar.ics")
 
         msg_all.attach(attachment)
 
@@ -73,6 +85,6 @@ if __name__ == '__main__':
             source=AwsSESTools.mail_header(u'蔣偉志', 'me@toomore.net'),
             to_addresses=AwsSESTools.mail_header(u'蔣太多',
                     'toomore0929@gmail.com'),
-            subject=u'測試寄件者中文問題 %s' % datetime.now(),
+            subject=u'測試使用 SES 附檔！ %s' % datetime.now(),
             body=u'測試寄件者中文問題',
             format='html')
